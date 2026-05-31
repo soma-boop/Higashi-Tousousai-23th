@@ -11,7 +11,7 @@ export const useBoothStatus = (split?: "first" | "second") => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const {
-    api: { fetchedData, isLoading, fetchData, lastUpdated, isStallsLive },
+    api: { fetchedData, fetchData, lastUpdated, isStallsLive },
   } = useData();
   const { isAdmin, isStallAdmin, assignedStall } = useRole();
   const allStatuses = fetchedData?.stalls || [];
@@ -59,7 +59,7 @@ export const useBoothStatus = (split?: "first" | "second") => {
   };
 
   return {
-    isLoading,
+    isLoading: false,
     mounted,
     statuses,
     lastUpdated,

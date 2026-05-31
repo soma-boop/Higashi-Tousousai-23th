@@ -18,7 +18,7 @@ export const useEventData = () => {
     const pathname = usePathname();
 
     useEffect(() => {
-        loadJSON("events").then(setEventData);
+        loadJSON("events").then(setEventData).catch(() => setEventData(null));
     }, []);
 
     const getEventTime = (timeStr: string) => {

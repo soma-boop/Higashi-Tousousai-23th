@@ -31,10 +31,17 @@ export default function ExhibitionStatus() {
   }, [isMobile]);
 
   useEffect(() => {
-    loadJSON("exhibitions").then((data) => {
-      setExhibitions(data);
-      setIsLoading(false);
-    });
+    loadJSON("exhibitions")
+      .then((data) => {
+        setExhibitions(Array.isArray(data) ? data : []);
+      })
+      .catch((error) => {
+        console.warn("[ExhibitionStatus] exhibitions.json could not be loaded", error);
+        setExhibitions([]);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }, []);
 
   return (
@@ -57,7 +64,7 @@ export default function ExhibitionStatus() {
               <div className={styles.contentWrapper}>
                 <h4 className={styles.titleText}>展示一覧を見る</h4>
                 <p className={styles.descText}>
-                  {exhibitions.length > 0 ? `全 ${exhibitions.length} 件` : "Loading..."}
+                  {isLoading ? "確認中..." : exhibitions.length > 0 ? `全 ${exhibitions.length} 件` : "展示情報はありません"}
                 </p>
               </div>
               <ExpandMoreIcon className={styles.arrowIcon} />

@@ -69,8 +69,8 @@ export const CUSTOM_CONFIG: EventConfig = {
   },
   
   navigation: {
-    homepageUrl: "https://rsu-suba.github.io/FesTime/",
-    basePath: "/FesTime",
+    homepageUrl: "https://soma-pop.github.io/Higashi-Tousousai-23th/",
+    basePath: "/Higashi-Tousousai-23th",
   },
   
   theme: {

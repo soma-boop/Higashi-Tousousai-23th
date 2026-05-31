@@ -41,7 +41,7 @@ export const useQAData = () => {
     loading,
     isSuccess,
     handleAsk,
-    isLoading,
+    isLoading: false,
     answeredQuestions,
     unansweredQuestions,
   };

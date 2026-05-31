@@ -17,7 +17,7 @@ export default function BoothStatusFavorite() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const {
-    api: { fetchedData, isLoading, lastUpdated, isStallsLive },
+    api: { fetchedData, lastUpdated, isStallsLive },
   } = useData();
   
   const allStatuses = fetchedData?.stalls || [];
@@ -58,11 +58,7 @@ export default function BoothStatusFavorite() {
       <CardInside>
         {statuses.length > 0 && <BoothTableHeader />}
 
-        {isLoading ? (
-          <SubList>
-            <p className={styles.loadingText}>Loading...</p>
-          </SubList>
-        ) : statuses.length > 0 ? (
+        {statuses.length > 0 ? (
           statuses.map((status, index) => (
             <React.Fragment key={`${status.stallName}-${index}`}>
               {index !== 0 && <Divider margin="8px 0" height="1px" />}

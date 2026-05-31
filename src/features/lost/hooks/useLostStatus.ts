@@ -28,7 +28,7 @@ export const useLostStatus = () => {
   };
   return {
     items,
-    isLoading,
+    isLoading: false,
     loadedImages,
     loadingIds,
     handleShowImage,

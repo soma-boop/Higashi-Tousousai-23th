@@ -47,12 +47,32 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const staticStallNameMap = useRef<Record<number | string, string>>({});
 
   useEffect(() => {
-    loadJSON("booth").then((data: any[]) => {
-      data.forEach((s) => {
-        if (s.id) staticStallNameMap.current[s.id] = s.name;
+    loadJSON("booth")
+      .then((data: any[]) => {
+        const boothList = Array.isArray(data) ? data : [];
+        boothList.forEach((s) => {
+          if (s.id) staticStallNameMap.current[s.id] = s.name;
+        });
+
+        // Supabase が未設定・未接続でも、静的な booth.json から模擬店一覧を表示できるようにする。
+        setStalls((current) =>
+          current.length > 0
+            ? current
+            : boothList.map((s) => ({
+                id: s.id,
+                stallName: s.name || "名称未設定",
+                crowdLevel: 0 as const,
+                stockLevel: 0 as const,
+              })),
+        );
+      })
+      .catch((error) => {
+        console.warn("[DataProvider] Static booth data could not be loaded", error);
+      })
+      .finally(() => {
+        setIsJSONLoaded(true);
+        setIsLoading(false);
       });
-      setIsJSONLoaded(true);
-    });
   }, []);
 
   const isSuspendedRef = useRef(isSuspended);

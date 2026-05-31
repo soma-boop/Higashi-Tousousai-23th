@@ -27,7 +27,7 @@ export const useNewsStatus = (onlyHot: boolean, hotTime: number) => {
   }, [news, currentTime, onlyHot, hotTime]);
 
   return {
-    isLoading,
+    isLoading: false,
     processedNews,
   };
 };

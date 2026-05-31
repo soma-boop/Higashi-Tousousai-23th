@@ -33,7 +33,7 @@ export default function BoothManager() {
       <CardInside>
         <div className={styles.container}>
           <div className={styles.header}>
-            <span className={styles.stallName}>模擬店名 : {assignedStall || "Loading..."}</span>
+            <span className={styles.stallName}>模擬店名 : {assignedStall || "未設定"}</span>
             <div className={styles.statusDisplay}>
               <span className={styles.statusLabel}>反映されている状態:</span>
               <span

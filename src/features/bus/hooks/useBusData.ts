@@ -19,7 +19,7 @@ export const useBusData = () => {
   const { currentTime } = useAppTime();
 
   useEffect(() => {
-    loadJSON("bus").then(setBusData);
+    loadJSON("bus").then(setBusData).catch(() => setBusData(null));
   }, []);
 
   const allStops = useMemo(() => {
