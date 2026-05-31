@@ -69,7 +69,7 @@ export const CUSTOM_CONFIG: EventConfig = {
   },
   
   navigation: {
-    homepageUrl: "https://soma-pop.github.io/Higashi-Tousousai-23th/",
+    homepageUrl: "https://www.higashi-h.tym.ed.jp/",
     basePath: "/Higashi-Tousousai-23th",
   },
   
