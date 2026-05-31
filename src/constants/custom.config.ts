@@ -60,12 +60,12 @@ export interface EventConfig {
 
 export const CUSTOM_CONFIG: EventConfig = {
   identity: {
-    eventName: "FesTime 2026",
-    organizationName: "Organization Name",
-    appTitle: "FesTime App",
+    eventName: "第23回 東窓祭",
+    organizationName: "Toyama-Higashi HighSchool",
+    appTitle: "第23回東窓祭 特設サイト",
     appDescription: "Real-time status, voting, and management",
-    eventStartDate: "2026-05-27",
-    eventEndDate: "2026-05-28",
+    eventStartDate: "2026-09-18",
+    eventEndDate: "2026-09-19",
   },
   
   navigation: {
