@@ -3,7 +3,7 @@
     "EVENTS": "Events",
     "BOOTH": "Booth",
     "BOOTHFAV": "Booth (Favorites)",
-    "BUS": "Bus",
+    "BUS": "Ainokaze Toyama Railway",
     "NEWS": "News",
     "LOST_FOUND": "Lost",
     "QA": "Q & A",
@@ -26,15 +26,15 @@
     "To": "To",
     "Departed": "Departed",
     "NoBuses": "No buses in this section",
-    "ToCampus": "To Campus",
-    "ToCentralStation": "To Central Station",
+    "ToCampus": "To Higashi Toyama Station",
+    "ToCentralStation": "To Toyama Station",
     "ArriveShort": "Arr.",
     "InNMins": "In {{count}} mins",
     "Stops": {
-      "キャンパス 発": "Campus (Dep.)",
-      "キャンパス 着": "Campus (Arr.)",
-      "中央駅 発": "Central St. (Dep.)",
-      "中央駅 着": "Central St. (Arr.)"
+      "キャンパス 発": "Higashi Toyama St. (Dep.)",
+      "キャンパス 着": "Higashi Toyama St. (Arr.)",
+      "中央駅 発": "Toyama St. (Dep.)",
+      "中央駅 着": "Toyama St. (Arr.)"
     }
   },
   "Booth": {
