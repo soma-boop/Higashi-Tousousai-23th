@@ -49,7 +49,7 @@ export default function BoothStatus({ split }: { split?: "first" | "second" }) {
         <BoothLegend />
         <BoothTableHeader />
 
-        {isLoading || !mounted ? (
+        {!mounted ? (
           <SubList>
             <p className={styles.loadingText}>Loading...</p>
           </SubList>
