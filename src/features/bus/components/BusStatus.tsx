@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import { Select, Tag, Radio } from "antd";
+import { Select, Tag } from "antd";
 import { useTranslation } from "react-i18next";
 import { CardBase, CardInside, Divider } from "@/components/Layout/CardComp";
 import dayjs from "dayjs";
 import { motion, AnimatePresence } from "framer-motion";
 import NoTransferRoundedIcon from "@mui/icons-material/NoTransferRounded";
-import { useBusData, BusTrip } from "../hooks/useBusData";
+import { useBusData } from "../hooks/useBusData";
 import styles from "./BusStatus.module.css";
 
 export default function BusStatus() {
@@ -25,15 +25,16 @@ export default function BusStatus() {
     newIndexMap,
   } = useBusData();
 
-  const FilterSwitcher = null ;
-    
-  );
+  // 「1時間以内 / すべて」の切り替えを消し、常に「すべて」を表示する
+  React.useEffect(() => {
+    setFilterMode("all");
+  }, [setFilterMode]);
 
   return (
     <CardBase
       title={t("CardTitles.BUS")}
-      SubjectUpdated={FilterSwitcher}
-      disableTapAnimation={filterMode === "all"}
+      SubjectUpdated={null}
+      disableTapAnimation={true}
     >
       <CardInside>
         <div className={styles.selectContainer}>
@@ -50,6 +51,7 @@ export default function BusStatus() {
               styles={{ popup: { root: { textAlign: "center" } } }}
             />
           </div>
+
           <div className={styles.selectRow}>
             <span className={styles.selectLabel}>{t("Bus.To")}</span>
             <Select
@@ -73,6 +75,7 @@ export default function BusStatus() {
                 const newIndex = newIndexMap.get(bus.isoTime);
                 const isNewItem = newIndex !== undefined;
                 const enterDelay = isNewItem ? 0.1 + newIndex * 0.06 : 0;
+
                 return (
                   <motion.div
                     key={bus.isoTime}
@@ -112,11 +115,16 @@ export default function BusStatus() {
                     }}
                   >
                     {index !== 0 && <Divider margin="20px 0" height="0px" />}
+
                     <div className={styles.busItem}>
                       <div style={{ textAlign: "left" }}>
-                        <Tag color={bus.routeKey === "Outbound" ? "blue" : "orange"} className={styles.routeTag}>
+                        <Tag
+                          color={bus.routeKey === "Outbound" ? "blue" : "orange"}
+                          className={styles.routeTag}
+                        >
                           {bus.routeTitle}
                         </Tag>
+
                         <p className={styles.timeText}>
                           {bus.time}
                           <span className={styles.timeLabel}>{t("Bus.Departure")}</span>
@@ -124,18 +132,21 @@ export default function BusStatus() {
                           <span className={styles.timeLabel}>{t("Bus.Arrival")}</span>
                         </p>
                       </div>
+
                       <div className={styles.diffText}>
                         {!isPast ? (
                           <p className={styles.diffValue}>
                             {(() => {
                               const diffMin = dayjs(`2000-01-01 ${bus.isoTime}`).diff(
                                 dayjs(`2000-01-01 ${nowTimeStr}`),
-                                "minute",
+                                "minute"
                               );
+
                               if (diffMin >= 60) {
                                 const hours = Math.floor(diffMin / 60);
                                 return t("Time.HoursLater", { count: hours });
                               }
+
                               return t("Time.MinsLater", { count: diffMin });
                             })()}
                           </p>
