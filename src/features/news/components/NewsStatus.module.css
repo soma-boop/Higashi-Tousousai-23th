@@ -1,0 +1,131 @@
+.loadingText {
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+  width: 100%;
+}
+
+.newsContainer {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--card-color);
+  border-radius: 0;
+}
+
+.newsScrollWrapper {
+  position: relative;
+  overflow: hidden;
+  padding: 0 !important;
+}
+
+.newsShadow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 40px;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.newsShadow.visible {
+  opacity: 1;
+}
+
+.newsShadow.top {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15), transparent);
+}
+
+.newsShadow.bottom {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.15), transparent);
+}
+
+.newsList {
+  display: flex;
+  flex-direction: column;
+  padding: 3% 6.5% 5%;
+}
+
+.newsList.scrollable {
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.newsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.newsList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.newsList::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 10px;
+  border: 1px solid #fafafa;
+}
+
+.newsList::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+}
+
+.newsItemContent {
+  text-align: left;
+  width: 100%;
+  transition: all 0.3s;
+}
+
+.newsItemHot {
+  border-left: 4px solid #ff4d4f;
+  padding-left: 10px;
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.newsTitle {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--main-color);
+}
+
+.newsTitleHot {
+  color: #ff4d4f;
+}
+
+.hotBadge {
+  margin-right: 8px;
+  color: #ff4d4f;
+}
+
+.newsTime {
+  font-size: 16px;
+  color: var(--text-sub-color);
+  margin: 0;
+  text-align: right;
+}
+
+.newsText {
+  font-size: 14px;
+  color: var(--text-sub-color);
+  margin: 0 0 8px 0;
+  white-space: pre-wrap;
+}
+
+.noDataContainer {
+  padding: 20px 0;
+}
+
+.noDataText {
+  font-size: 14px;
+  color: var(--text-sub-color);
+  text-align: center;
+  width: 100%;
+}

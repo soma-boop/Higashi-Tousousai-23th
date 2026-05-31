@@ -1,0 +1,92 @@
+[
+  {
+    "id": "1F_NW",
+    "location": "校舎 1階 北西",
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "1F_NE",
+    "location": "校舎 1階 北東",
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "1F_SW",
+    "location": "校舎 1階 南西",
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "1F_SE",
+    "location": "校舎 1階 南東",
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "2F_NW",
+    "location": "校舎 2階 北西",
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "2F_NE",
+    "location": "校舎 2階 北東",
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "2F_SW",
+    "location": "校舎 2階 南西",
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "2F_SE",
+    "location": "校舎 2階 南東",
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "3F_NW",
+    "location": "校舎 3階 北西",
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "3F_NE",
+    "location": "校舎 3階 北東",
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "3F_SW",
+    "location": "校舎 3階 南西",
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "3F_SE",
+    "location": "校舎 3階 南東",
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "4F_W",
+    "location": "校舎 4階 北西",
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "4F_E",
+    "location": "校舎 4階 北東",
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  },
+  {
+    "id": "Library",
+    "location": "図書館",
+    "nearbyStalls": [],
+    "nearbyExhibitions": []
+  }
+]

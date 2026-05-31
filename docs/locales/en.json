@@ -1,0 +1,127 @@
+{
+  "CardTitles": {
+    "EVENTS": "Events",
+    "BOOTH": "Booth",
+    "BOOTHFAV": "Booth (Favorites)",
+    "BUS": "Bus",
+    "NEWS": "News",
+    "LOST_FOUND": "Lost",
+    "QA": "Q & A",
+    "SETTINGS": "Settings",
+    "VOTE": "Voting",
+    "UPDATES": "Update"
+  },
+  "Vote": {
+    "Title": "Voting Open",
+    "Description": "Vote for your favorite booths and exhibitions",
+    "Button": "Go to Vote Page"
+  },
+  "Bus": {
+    "Departure": "Departure",
+    "Arrival": "Arrival",
+    "FilterHour": "In 1 hour",
+    "FilterAll": "All",
+    "Destinations": "Destination",
+    "From": "From",
+    "To": "To",
+    "Departed": "Departed",
+    "NoBuses": "No buses in this section",
+    "ToCampus": "To Campus",
+    "ToCentralStation": "To Central Station",
+    "ArriveShort": "Arr.",
+    "InNMins": "In {{count}} mins",
+    "Stops": {
+      "キャンパス 発": "Campus (Dep.)",
+      "キャンパス 着": "Campus (Arr.)",
+      "中央駅 発": "Central St. (Dep.)",
+      "中央駅 着": "Central St. (Arr.)"
+    }
+  },
+  "Booth": {
+    "Crowd": {
+      "Green": "No Crowded",
+      "Yellow": "Busy",
+      "Red": "Crowded"
+    },
+    "Stock": {
+      "Green": "Available",
+      "Yellow": "Few",
+      "Red": "Sold out"
+    },
+    "Name": "Booth Name",
+    "CrowdLabel": "Crowd",
+    "StockLabel": "Stock",
+    "EmptyAvailable": "Empty / Available",
+    "BusyFew": "Busy / Few",
+    "CrowdedSoldOut": "Crowded / Sold out",
+    "NoData": "No booth information",
+    "NoFav": "Tap the ☆ to add to favorites",
+    "Details": "Tap for details",
+    "Share": "Share",
+    "ViewMap": "View Map",
+    "ViewMenu": "View Menu"
+  },
+  "LostFound": {
+    "NoItems": "No items found",
+    "Location": "Location",
+    "Time": "Time",
+    "NoData": "No lost items",
+    "ShowImage": "Show image"
+  },
+  "QA": {
+    "AskAdmin": "Ask admin",
+    "Reply": "Reply",
+    "Answered": "Answered",
+    "Placeholder": "Enter your question",
+    "Send": "Send",
+    "Sent": "Sent!",
+    "SuccessMsg": "Question sent.",
+    "FailureMsg": "Failed to send.",
+    "AnsweredSection": "Answered questions",
+    "WaitingSection": "Awaiting answer questions",
+    "NoData": "No answered questions",
+    "OutsideEvent": "For questions outside the event dates, please visit our official website."
+  },
+  "Event": {
+    "Finished": "Finished",
+    "NoData": "No events in 1 hour",
+    "NoEvent": "No Events",
+    "Now": "NOW"
+  },
+  "Spot": {
+    "Title": "Location Info",
+    "CurrentLocation": "You are here",
+    "ViewFullMap": "Zoom Map",
+    "NearbyBooths": "Nearby Booths",
+    "NearbyExhibitions": "Nearby Exhibitions",
+    "NoNearby": "No nearby info available",
+    "NoNearbyExhibitions": "No nearby exhibitions available"
+  },
+  "News": {
+    "NoData": "No news available",
+    "Updated": "Updated",
+    "New": "New"
+  },
+  "Time": {
+    "HoursLater": "In {{count}} hours",
+    "MinsLater": "In {{count}} mins",
+    "EditReason": "Edit",
+    "HotNews": "In {{count}} Mins"
+  },
+  "Common": {
+    "Loading": "Loading...",
+    "Error": "An error occurred",
+    "Edit": "Edit",
+    "Edited": "Edited",
+    "Delete": "Delete",
+    "Cancel": "Cancel",
+    "Confirm": "Confirm",
+    "HotNews": "Hot",
+    "AppShare": "Scan to View",
+    "DemoNotSupported": "Not supported in demo"
+  },
+  "Settings": {
+    "Dark": "Dark Theme",
+    "Language": "言語"
+  }
+}

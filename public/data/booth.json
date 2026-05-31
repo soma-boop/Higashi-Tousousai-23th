@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "name": "ポップコーン",
+    "team": "チームA",
+    "place": "テント番号1",
+    "menu": [
+      { "content": "100g", "price": 200 }
+    ],
+    "image": ""
+  },
+  {
+    "id": 2,
+    "name": "チュロス",
+    "team": "チームB",
+    "place": "テント番号2",
+    "menu": [
+      { "content": "チョコ", "price": 200 }
+    ],
+    "image": ""
+  },
+  {
+    "id": 3,
+    "name": "たこ焼き",
+    "team": "チームC",
+    "place": "テント3",
+    "menu": [
+      { "content": "6個", "price": 180 }
+    ],
+    "image": ""
+  },
+  {
+    "id": 4,
+    "name": "焼き鳥",
+    "team": "チームD",
+    "place": "テント4",
+    "menu": [
+      { "content": "1本", "price": 150 },
+      { "content": "3本", "price": 400 },
+      { "content": "5本", "price": 750 }
+    ],
+    "image": ""
+  }
+]
