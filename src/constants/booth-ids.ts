@@ -1,0 +1,1 @@
+export const BOOTH_IDS: Record<string, string> = {};
