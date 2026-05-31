@@ -16,7 +16,7 @@ export interface EventConfig {
   theme: {
     primaryColor: { light: string; dark: string; };
     backgroundColor: { light: string; dark: string; };
-    mainLogoPath: string;
+    mainLogoPath: string ;
   };
   
   api: {
@@ -76,7 +76,7 @@ export const CUSTOM_CONFIG: EventConfig = {
   theme: {
     primaryColor: { light: "#1f1f1f", dark: "#f0f0f0" },
     backgroundColor: { light: "#ffffff", dark: "#18181a" },
-    mainLogoPath: "",
+    mainLogoPath: "/Higashi-Tousousai-23th/img/logo/test-logo.png",
   },
   
   api: {
