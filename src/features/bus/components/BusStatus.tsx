@@ -25,33 +25,8 @@ export default function BusStatus() {
     newIndexMap,
   } = useBusData();
 
-  const FilterSwitcher = (
-    <div className={styles.switcher}>
-      <Radio.Group value={filterMode} onChange={(e) => setFilterMode(e.target.value)} buttonStyle="solid" size="small">
-        <Radio.Button
-          value="hour"
-          className={`${styles.radioBtn} ${styles.radioBtnHour}`}
-          style={{
-            background: filterMode === "hour" ? "var(--text-color)" : "var(--card-color)",
-            color: filterMode === "hour" ? "var(--card-color)" : "var(--text-color)",
-            borderRadius: "999px 0 0 999px",
-          }}
-        >
-          {t("Bus.FilterHour")}
-        </Radio.Button>
-        <Radio.Button
-          value="all"
-          className={`${styles.radioBtn} ${styles.radioBtnAll}`}
-          style={{
-            background: filterMode === "hour" ? "var(--card-color)" : "var(--text-color)",
-            color: filterMode === "hour" ? "var(--text-color)" : "var(--card-color)",
-            borderRadius: "0 999px 999px 0",
-          }}
-        >
-          {t("Bus.FilterAll")}
-        </Radio.Button>
-      </Radio.Group>
-    </div>
+  const FilterSwitcher = null ;
+    
   );
 
   return (
