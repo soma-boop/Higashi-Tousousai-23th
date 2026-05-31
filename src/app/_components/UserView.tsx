@@ -89,7 +89,7 @@ export default function UserView() {
       Booth1: <BoothStatus key="booth1" split="first" />,
       Booth2: <BoothStatus key="booth2" split="second" />,
       News: CUSTOM_CONFIG.features.news ? <NewsStatus key="news" /> : null,
-      Bus: (CUSTOM_CONFIG.features.bus && isEventDay) ? (
+      Bus: (CUSTOM_CONFIG.features.bus) ? (
         <Suspense key="bus" fallback={<FallbackLoader text="Loading Bus..." />}>
           <BusStatus />
         </Suspense>
