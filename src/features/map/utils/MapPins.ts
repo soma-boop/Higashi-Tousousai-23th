@@ -13,5 +13,5 @@ export const mapList = [
   { category: "建物", title: "第1体育館", src: "" },
   { category: "建物", title: "図書館", src: "" },
   { category: "全体", title: "模擬店", src: "" },
-  { category: "全体", title: "全体図", src: "" },
+  { category: "全体", title: "全体図", src: "/img/test.map.jpg" },
 ];
