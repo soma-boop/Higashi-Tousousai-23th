@@ -1,9 +1,9 @@
 [
   {
     "id": 1,
-    "name": "Harry Hotter",
-    "team": "チームA",
-    "place": "テント番号1",
+    "name": "てつゆききっさ",
+    "team": "3の1",
+    "place": "3-4教室",
     "menu": [
       { "content": "100g", "price": 200 }
     ],
@@ -11,9 +11,9 @@
   },
   {
     "id": 2,
-    "name": "チュロス",
-    "team": "チームB",
-    "place": "テント番号2",
+    "name": "３年２組",
+    "team": "3の2",
+    "place": "どっかしら",
     "menu": [
       { "content": "チョコ", "price": 200 }
     ],
@@ -21,9 +21,9 @@
   },
   {
     "id": 3,
-    "name": "たこ焼き",
-    "team": "チームC",
-    "place": "テント3",
+    "name": "かなまるちゃん正麺",
+    "team": "3の3",
+    "place": "中庭・3-3教室",
     "menu": [
       { "content": "6個", "price": 180 }
     ],
@@ -31,9 +31,9 @@
   },
   {
     "id": 4,
-    "name": "焼き鳥",
-    "team": "チームD",
-    "place": "テント4",
+    "name": "３年５組",
+    "team": "3の5",
+    "place": "中庭・3-5教室",
     "menu": [
       { "content": "1本", "price": 150 },
       { "content": "3本", "price": 400 },
