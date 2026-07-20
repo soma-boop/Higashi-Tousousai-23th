@@ -101,11 +101,11 @@ export const CUSTOM_CONFIG: EventConfig = {
   },
 
   bus: {
-    defaultFromStop: "富山",
-    defaultToStop: "東富山",
+    defaultFromStop: "富山 発",
+    defaultToStop: "東富山 行",
     routeLabels: {
-      Outbound: { ja: "キャンパス 行", en: "To Campus" },
-      Inbound: { ja: "中央駅 行", en: "To Central Station" },
+      Outbound: { ja: "東富山 行", en: "To Higashi Toyama" },
+      Inbound: { ja: "富山 行", en: "To Toyama" },
     },
     stopTranslations: {
       "キャンパス 発": { ja: "キャンパス 発", en: "Campus (Dep.)" },
