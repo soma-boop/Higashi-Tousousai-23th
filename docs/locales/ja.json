@@ -25,7 +25,7 @@
     "From": "乗車",
     "To": "降車",
     "Departed": "出発済み",
-    "NoBuses": "指定区間で運行するバスはありません",
+    "NoBuses": "指定区間で運行する電車はありません",
     "ToCampus": "東富山 行",
     "ToCentralStation": "富山 行",
     "ArriveShort": "着",
