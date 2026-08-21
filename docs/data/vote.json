@@ -1,0 +1,10 @@
+[
+  { "id": "31", "name": "写真展示", "category": "e" },
+  { "id": "32", "name": "フォトスポット", "category": "e" },
+  { "id": "33", "name": "学科展示", "category": "e" },
+  { "id": "34", "name": "ロボット展示", "category": "e" },
+  { "id": "01", "name": "ポップコーン", "category": "s" },
+  { "id": "02", "name": "チュロス", "category": "s" },
+  { "id": "03", "name": "たこ焼き", "category": "s" },
+  { "id": "04", "name": "焼き鳥", "category": "s" }
+]
