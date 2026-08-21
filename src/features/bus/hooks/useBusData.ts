@@ -11,6 +11,7 @@ export interface BusTrip {
   isoTime: string;
   routeTitle: string;
   routeKey: string;
+  transfer?: string;
 }
 
 export const useBusData = () => {
@@ -76,14 +77,24 @@ export const useBusData = () => {
 
             if (filterMode === "all" || isWithinHour) {
               const lang = i18n.language.startsWith("ja") ? "ja" : "en";
-              const routeLabel = CUSTOM_CONFIG.bus?.routeLabels[routeKey]?.[lang] || routeKey;
+
+              const routeLabel =
+                lang === "ja"
+                 ? `${toStop} 行`
+                 : `To ${toStop}`;
 
               results.push({
-                time,
-                arrivalTime,
-                isoTime,
-                routeTitle: routeLabel,
-                routeKey: routeKey,
+              time,
+              arrivalTime,
+              isoTime,
+              routeTitle: routeLabel,
+              routeKey: routeKey,
+              transfer:
+                routeKey === "Inbound" && toStop !== "高岡"
+                   ? ""
+                  : routeKey === "Outbound" && fromStop !== "高岡"
+                   ? ""
+                   : routeData.transfer?.[tripIndex] || "",
               });
             }
           }
@@ -94,12 +105,10 @@ export const useBusData = () => {
     return results.sort((a, b) => a.isoTime.localeCompare(b.isoTime));
   }, [busData, fromStop, toStop, nowTimeStr, oneHourLaterStr, filterMode, i18n.language]);
 
-  const stopOptions = allStops
-    .filter((s) => s.includes("発") || s.includes("着"))
-    .map((s) => ({
-      value: s,
-      label: CUSTOM_CONFIG.bus?.stopTranslations?.[s]?.[i18n.language.startsWith("ja") ? "ja" : "en"] || s,
-    }));
+  const stopOptions = ["高岡", "富山", "東富山", "黒部"].map((s) => ({
+  value: s,
+  label: s,
+}));
 
   const isInHourRange = (bus: BusTrip) => {
     const isUpcoming = bus.isoTime > nowTimeStr;

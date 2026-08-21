@@ -1,0 +1,202 @@
+/*!*************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./src/features/admin/components/Admin.css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************/
+.main-push-btn {
+    font-weight: bold !important;
+    border-color: var(--text-color, #1f1f1f) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.main-push-btn:hover {
+    background-color: var(--border-color, #444) !important;
+}
+
+.main-push-btn:active {
+    transform: scale(0.98);
+}
+
+.section-text {
+    font-size: 16px !important;
+    color: var(--main-color);
+    margin: 0 0 20px 0;
+    text-align: left !important;
+}
+
+.ant-upload-list-item-thumbnail {
+    pointer-events: none !important;
+}
+
+.ant-upload-list-item-name {
+    pointer-events: none !important;
+}
+
+.ant-upload-list-item-container a {
+    pointer-events: none !important;
+    cursor: default !important;
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.no-thumbnail-link .ant-upload-list-item-container,
+.no-thumbnail-link .ant-upload-list-item {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.no-thumbnail-link .ant-upload-list-item-info {
+    flex: 1 1 !important;
+    min-width: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+.no-thumbnail-link .ant-upload-list-item-name {
+    display: inline-block !important;
+    flex: 1 1 !important;
+    min-width: 0 !important;
+    max-width: calc(100vw - 190px) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin-right: 8px !important;
+    pointer-events: none !important;
+}
+
+.no-thumbnail-link .ant-upload-list-item-actions {
+    flex-shrink: 0 !important;
+    margin-left: auto !important;
+}
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[3]!./src/features/qa/components/QAManager.module.css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************/
+.QAManager_loadingContainer__uN6_w {
+  text-align: center;
+  padding: 50px;
+}
+
+.QAManager_sectionTitle__vOjFg {
+  font-weight: bold;
+  text-align: left;
+}
+
+.QAManager_itemContainer__KoFrM {
+  text-align: left;
+  padding: 0 0 20px;
+}
+
+.QAManager_itemHeader__c3xN8 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.QAManager_questionText__2Ua8b {
+  font-size: 14px;
+  color: var(--text-sub-color);
+}
+
+.QAManager_qPrefix__1Xn5I {
+  color: #007AFF;
+  margin-right: 8px;
+}
+
+.QAManager_itemTime__VVwY8 {
+  font-size: 16px;
+  color: var(--text-sub-color);
+  margin: 0;
+}
+
+.QAManager_inputRow__Kti0Z {
+  display: flex;
+  gap: 10px;
+  margin: 4px 0 10px;
+}
+
+.QAManager_noItemsText__mCq0M {
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+  padding: 20px;
+}
+
+.QAManager_answeredItemContainer__7be6E {
+  text-align: left;
+}
+
+.QAManager_answerText__TnHnV {
+  font-size: 14px;
+  color: var(--text-sub-color);
+  white-space: pre-wrap;
+}
+
+.QAManager_aPrefix__oooeo {
+  color: #ff4d4f;
+  margin-right: 8px;
+}
+
+.QAManager_actionButtons__kdOvW {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.QAManager_modalForm__mlUrR {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-top: 10px;
+}
+
+.QAManager_modalLabel__Hl1Q_ {
+  font-size: 12px;
+}
+
+.QAManager_modalInputLabel__z5HxM {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.QAManager_confirmDeleteContainer__PceK8 {
+  margin-top: 10px;
+}
+
+.QAManager_confirmDeleteText__qU800 {
+  margin-bottom: 10px;
+}
+
+.QAManager_confirmDeletePreview__uZEsl {
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #666;
+  border: 1px solid #ddd;
+}
+
+/*!***************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[3]!./src/features/admin/components/AdminEditModal.module.css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************************/
+.AdminEditModal_modalBody__gRvJL {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 10px;
+}
+
+.AdminEditModal_modalLabel__DA_oT {
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--text-color);
+}
+
+.AdminEditModal_reasonSection__gqzu7 {
+  margin-top: 10px;
+  padding-top: 20px;
+  border-top: 1px dashed var(--border-color);
+}
+

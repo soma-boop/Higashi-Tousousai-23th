@@ -1,0 +1,27 @@
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[3]!./src/features/vote/components/VoteAdmin.module.css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************/
+.VoteAdmin_canvasContainer__KhmOb {
+  width: 100%;
+  margin-left: 0;
+  padding-left: 40px;
+}
+
+.VoteAdmin_lastUpdatedText__nFtbe {
+  font-size: 12px;
+  color: var(--text-sub-color);
+  margin-right: 2em;
+}
+
+.VoteAdmin_rankText__jjIM9 {
+  font-weight: normal;
+}
+
+.VoteAdmin_topRankText__jVPL7 {
+  font-weight: bold;
+}
+
+.VoteAdmin_itemName__bXZub {
+  font-weight: 500;
+}
+

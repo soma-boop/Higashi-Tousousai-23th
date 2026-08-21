@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
 import dynamic from "next/dynamic";
 import { getPath } from "@/constants/paths";
 import { useMapData } from "@/features/map/hooks/useMapData";
@@ -22,7 +21,6 @@ export default function MapSection({ initialPlace }: { initialPlace?: string | n
     containerRef,
     toggleFullscreen,
     getBounds,
-    categories,
     mapList,
   } = useMapData(initialPlace);
 
@@ -33,33 +31,25 @@ export default function MapSection({ initialPlace }: { initialPlace?: string | n
           <p>Maps</p>
         </div>
       </div>
+
       <div className={`card ${styles.mapCard}`} style={{ overflow: "hidden" }}>
         <div className={styles.mapWrapper}>
-          <table className={styles.navTable}>
-            <tbody>
-              {categories.map((category) => (
-                <tr key={category} className={styles.navRow}>
-                  <th className={styles.categoryCell}>{category}</th>
-                  <td className={styles.buttonsCell}>
-                    {mapList
-                      .map((map, index) => ({ ...map, index }))
-                      .filter((map) => map.category === category)
-                      .map((map) => (
-                        <button
-                          key={map.index}
-                          onClick={() => setActiveIndex(map.index)}
-                          className={`${styles.mapButton} ${
-                            activeIndex === map.index ? styles.mapButtonActive : styles.mapButtonInactive
-                          }`}
-                        >
-                          {map.title}
-                        </button>
-                      ))}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+
+          <div className={styles.buttonsCell}>
+            {mapList.map((map, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveIndex(index)}
+                className={`${styles.mapButton} ${
+                  activeIndex === index
+                    ? styles.mapButtonActive
+                    : styles.mapButtonInactive
+                }`}
+              >
+                {map.title}
+              </button>
+            ))}
+          </div>
 
           <div
             ref={containerRef}
@@ -76,6 +66,7 @@ export default function MapSection({ initialPlace }: { initialPlace?: string | n
               isReady={isReady}
               initialPlace={initialPlace}
             />
+
             {!isReady && (
               <div className={styles.loadingOverlay}>
                 Preparing Map Data...

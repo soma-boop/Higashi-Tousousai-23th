@@ -42,7 +42,7 @@ export default function BusStatus() {
             <span className={styles.selectLabel}>{t("Bus.From")}</span>
             <Select
               value={fromStop}
-              options={stopOptions.filter((o) => o.value.includes("発"))}
+              options={stopOptions.filter((o) => o.value !== toStop)}
               onChange={setFromStop}
               className={styles.selectField}
               size="large"
@@ -56,7 +56,7 @@ export default function BusStatus() {
             <span className={styles.selectLabel}>{t("Bus.To")}</span>
             <Select
               value={toStop}
-              options={stopOptions.filter((o) => o.value.includes("着"))}
+              options={stopOptions.filter((o) => o.value !== fromStop)}
               onChange={setToStop}
               className={styles.selectField}
               size="large"
@@ -67,7 +67,10 @@ export default function BusStatus() {
           </div>
         </div>
 
-        <div className={styles.listContainer}>
+        <div
+           className={styles.listContainer}
+           key={`${fromStop}-${toStop}`}
+        >
           <AnimatePresence initial={false} mode="sync">
             {filteredBuses.length > 0 ? (
               filteredBuses.map((bus, index) => {
@@ -78,7 +81,7 @@ export default function BusStatus() {
 
                 return (
                   <motion.div
-                    key={bus.isoTime}
+                    key={`${fromStop}-${toStop}-${bus.routeKey}-${bus.isoTime}-${bus.arrivalTime}-${index}`}
                     layout
                     initial={isNewItem ? { opacity: 0, y: 30, scale: 0.8 } : false}
                     animate={{ opacity: isPast ? 0.4 : 1, y: 0, scale: 1 }}
@@ -131,6 +134,11 @@ export default function BusStatus() {
                           <span className={styles.arrowLabel}> →</span> {bus.arrivalTime}
                           <span className={styles.timeLabel}>{t("Bus.Arrival")}</span>
                         </p>
+                        {bus.transfer && (
+                          <p style={{ margin: "4px 0 0", fontSize: "0.85rem" }}>
+                          ※ {bus.transfer}
+                          </p>
+                        )}
                       </div>
 
                       <div className={styles.diffText}>

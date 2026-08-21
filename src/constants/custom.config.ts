@@ -101,8 +101,8 @@ export const CUSTOM_CONFIG: EventConfig = {
   },
 
   bus: {
-    defaultFromStop: "富山 発",
-    defaultToStop: "東富山 行",
+    defaultFromStop: "東富山",
+    defaultToStop: "富山",
     routeLabels: {
       Outbound: { ja: "東富山 行", en: "To Higashi Toyama" },
       Inbound: { ja: "富山 行", en: "To Toyama" },

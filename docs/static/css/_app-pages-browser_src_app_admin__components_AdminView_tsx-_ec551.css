@@ -1,0 +1,145 @@
+/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[3]!./src/components/Layout/Bottom.module.css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************/
+.Bottom_bottomFooter__Lwkvz {
+  position: relative;
+  width: 80%;
+  height: 100%;
+  background-color: var(--bottom-nav);
+  -webkit-backdrop-filter: saturate(240%) blur(5px);
+  backdrop-filter: saturate(240%) blur(5px);
+  z-index: 3;
+  border-radius: 9999px;
+  border: solid var(--glass-border) 0.5px;
+  display: block;
+}
+
+.Bottom_footerRef__9U_03 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 9999px;
+  overflow: hidden;
+  box-shadow: var(--bottom-nav-shadow);
+  display: flex;
+}
+
+.Bottom_navIndicator__ZYyiq {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.Bottom_navIndicator__ZYyiq::after {
+  content: "";
+  width: 100%;
+  height: calc(100% - 12px);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  border-radius: 9999px;
+  background: var(--text-color);
+}
+
+.Bottom_navWrapper__UBPAB {
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+  z-index: 2;
+  position: relative;
+  justify-content: space-around;
+}
+
+.Bottom_navTabBtn__mzS0B {
+  flex: 1 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.Bottom_navIcon__1_0Vz {
+  font-size: 26px !important;
+  transition: all 0.3s ease;
+}
+
+.Bottom_navLabel__EKmTt {
+  font-size: 10px;
+  transition: all 0.3s ease;
+}
+
+.Bottom_active__ok0Oe {
+  color: var(--bg-color);
+  font-weight: 600;
+}
+
+.Bottom_inactive__O_3jb {
+  color: var(--text-sub-color);
+  font-weight: 400;
+}
+
+@media (min-width: 550px) {
+  .mode-phone .Bottom_bottomFooter__Lwkvz {
+    max-width: 700px;
+  }
+}
+
+/*!******************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[5].use[3]!./src/app/admin/_components/AdminView.module.css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************/
+.AdminView_adminView__zQoSO {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.AdminView_adminView__zQoSO::before,
+.AdminView_adminView__zQoSO::after,
+.AdminView_adminView__zQoSO .mainCanvas::before,
+.AdminView_adminView__zQoSO .mainCanvas::after {
+  display: none !important;
+}
+
+.AdminView_header__AdxRr {
+  background: var(--bg-color);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.AdminView_headerMobile__6nLXv {
+  padding: 10px 10px 0;
+}
+
+.AdminView_headerDesktop__BLeM8 {
+  padding: 0 40px;
+}
+
+.AdminView_contentWrapper__nu8vy {
+  flex: 1 1;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: var(--mainCanvas-color);
+}
+
+.AdminView_tabIcon__RaJYD {
+  display: flex;
+}
+
+.AdminView_fallbackLoader__iUrzg {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-sub-color);
+}
+
