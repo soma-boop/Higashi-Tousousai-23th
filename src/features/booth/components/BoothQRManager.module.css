@@ -2,6 +2,17 @@
   width: 100%;
   margin: 0 auto;
   max-width: 600px;
+
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+  padding-bottom: 40px;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.pccCanvas::-webkit-scrollbar {
+  display: none;
 }
 
 .guideText {

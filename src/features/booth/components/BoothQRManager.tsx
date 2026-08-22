@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
-import { Space, Typography, Select, Button } from "antd";
+import { Space, Typography, Select, Button, Divider } from "antd";
 import { CardBase, CardInside } from "@/components/Layout/CardComp";
 import PCCanvasColumn from "@/components/Layout/PCCanvasColumn";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import { useBoothQRManager } from "@/features/booth/hooks/useBoothQRManager";
+import QRCode from "qrcode";
 import styles from "./BoothQRManager.module.css";
 
 const { Title, Text } = Typography;
@@ -13,6 +14,9 @@ const { Title, Text } = Typography;
 interface BoothQRManagerProps {
   isMobile?: boolean;
 }
+
+const PUBLIC_SITE_URL =
+  "https://soma-boop.github.io/Higashi-Tousousai-23th/";
 
 export default function BoothQRManager({}: BoothQRManagerProps) {
   const {
@@ -24,14 +28,96 @@ export default function BoothQRManager({}: BoothQRManagerProps) {
     stallOptions,
   } = useBoothQRManager();
 
+  const [publicQr, setPublicQr] = React.useState<string>("");
+
+  React.useEffect(() => {
+    QRCode.toDataURL(PUBLIC_SITE_URL, {
+      width: 500,
+      margin: 2,
+      errorCorrectionLevel: "H",
+    })
+      .then((url) => {
+        setPublicQr(url);
+      })
+      .catch((error) => {
+        console.error("公開サイトQR生成エラー:", error);
+      });
+  }, []);
+
+  const handlePublicCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(PUBLIC_SITE_URL);
+    } catch (error) {
+      console.error("URLコピーエラー:", error);
+    }
+  };
+
+  const handlePublicDownload = () => {
+    if (!publicQr) return;
+
+    const link = document.createElement("a");
+    link.href = publicQr;
+    link.download = "tousousai-site-qr.png";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="mainCanvas">
       <div className={styles.pccCanvas}>
         <PCCanvasColumn>
-          <CardBase title="模擬店QR" disableTapAnimation={true}>
+          <CardBase title="QRコード管理" disableTapAnimation={true}>
             <CardInside>
+
+              {/* 一般公開サイトQR */}
               <div className={styles.guideText}>
-                <Text type="secondary">模擬店を選択 → QRを生成</Text>
+                <Title level={4}>一般公開サイトQR</Title>
+                <Text type="secondary">
+                  ポスター・案内掲示用
+                </Text>
+              </div>
+
+              <div className={styles.qrDisplayContainer}>
+                {publicQr ? (
+                  <Space orientation="vertical" size="middle">
+                    <div className={styles.qrWrapper}>
+                      <img
+                        src={publicQr}
+                        alt="東窓祭公開サイトQR"
+                        className={styles.qrImage}
+                      />
+                    </div>
+
+                    <Title level={4} className={styles.qrTitle}>
+                      東窓祭特設サイト
+                    </Title>
+
+                    <Space wrap>
+                      <Button type="primary" onClick={handlePublicDownload}>
+                        QR画像を保存
+                      </Button>
+
+                      <Button onClick={handlePublicCopy}>
+                        URLをコピー
+                      </Button>
+                    </Space>
+                  </Space>
+                ) : (
+                  <div className={styles.loadingDisplay}>
+                    QR生成中...
+                  </div>
+                )}
+              </div>
+
+              <Divider />
+
+              {/* 模擬店QR */}
+              <div className={styles.guideText}>
+                <Title level={4}>模擬店QR</Title>
+                <Text type="secondary">
+                  模擬店を選択 → QRを生成
+                </Text>
               </div>
 
               <div className={styles.selectContainer}>
@@ -43,7 +129,13 @@ export default function BoothQRManager({}: BoothQRManagerProps) {
                   options={stallOptions}
                   size="large"
                   listHeight={600}
-                  styles={{ popup: { root: { textAlign: "center" } } }}
+                  styles={{
+                    popup: {
+                      root: {
+                        textAlign: "center",
+                      },
+                    },
+                  }}
                 />
               </div>
 
@@ -56,11 +148,17 @@ export default function BoothQRManager({}: BoothQRManagerProps) {
                   ) : qrData ? (
                     <Space orientation="vertical" size="middle">
                       <div className={styles.qrWrapper}>
-                        <img src={qrData.qrImg} alt="QR" className={styles.qrImage} />
+                        <img
+                          src={qrData.qrImg}
+                          alt="QR"
+                          className={styles.qrImage}
+                        />
                       </div>
+
                       <Title level={4} className={styles.qrTitle}>
                         {selectedStall}
                       </Title>
+
                       <Space>
                         <Button type="primary" onClick={handleCopy}>
                           URLをコピー
@@ -69,7 +167,9 @@ export default function BoothQRManager({}: BoothQRManagerProps) {
                     </Space>
                   ) : (
                     <div className={styles.placeholderContainer}>
-                      <Text type="danger">パスワードが設定されていません。設定を確認してください。</Text>
+                      <Text type="danger">
+                        QRの生成に失敗しました。設定を確認してください。
+                      </Text>
                     </div>
                   )}
                 </div>
@@ -80,6 +180,7 @@ export default function BoothQRManager({}: BoothQRManagerProps) {
                   模擬店を選択してください
                 </div>
               )}
+
             </CardInside>
           </CardBase>
         </PCCanvasColumn>
