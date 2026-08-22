@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { App } from "antd";
+import QRCode from "qrcode";
+
 import { BOOTH_IDS } from "@/constants/booth-ids";
 import { getPath } from "@/constants/paths";
 import { supabase } from "@/lib/Server/supabase";
@@ -8,88 +10,117 @@ import { useRole } from "@/contexts/RoleContext";
 export const useBoothQRManager = () => {
   const { message } = App.useApp();
   const { isAdmin } = useRole();
+
   const [selectedStall, setSelectedStall] = useState<string | null>(null);
-  const [password, setPassword] = useState<string>("");
-  const [qrData, setQrData] = useState<{ url: string; qrImg: string } | null>(null);
+  const [qrData, setQrData] = useState<{
+    url: string;
+    qrImg: string;
+  } | null>(null);
+
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchCommonPassword = async () => {
-      if (!isAdmin) return;
+  const generateQR = useCallback(
+    async (name: string) => {
+      if (!name || !isAdmin) {
+        setQrData(null);
+        return;
+      }
+
+      const id = BOOTH_IDS[name];
+
+      if (!id) {
+        message.error("模擬店IDが見つかりません");
+        setQrData(null);
+        return;
+      }
+
       setLoading(true);
 
-      const { data, error } = await supabase
-        .from("app_settings")
-        .select("value_text")
-        .eq("key", "booth_common_password")
-        .maybeSingle();
+      try {
+        // Supabaseから、このブース専用tokenを取得
+        const { data, error } = await supabase
+          .from("booth_access_tokens")
+          .select("token")
+          .eq("stall_id", Number(id))
+          .single();
 
-      if (error) {
-        console.error("[BoothQRManager] Failed to fetch common password:", error);
-      } else if (data?.value_text) {
-        console.log("[BoothQRManager] Common password fetched successfully.");
-        setPassword(data.value_text);
-      } else {
-        console.warn("[BoothQRManager] Common password not found in app_settings.");
+        if (error) {
+          throw error;
+        }
+
+        if (!data?.token) {
+          throw new Error("Booth token not found");
+        }
+
+        const baseUrl =
+          window.location.origin + getPath("/booth");
+
+        const url =
+          `${baseUrl}?id=${encodeURIComponent(id)}` +
+          `&token=${encodeURIComponent(data.token)}`;
+
+        // 外部サービスを使わず、ブラウザ内でQRを生成
+        const qrImg = await QRCode.toDataURL(url, {
+          width: 250,
+          margin: 2,
+        });
+
+        setQrData({
+          url,
+          qrImg,
+        });
+      } catch (error) {
+        console.error(
+          "[BoothQRManager] QR generation failed:",
+          error
+        );
+
+        message.error(
+          "QRコードの生成に失敗しました"
+        );
+
+        setQrData(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
-    };
-
-    fetchCommonPassword();
-  }, [isAdmin]);
-
-  const generateQR = useCallback((name: string, pass: string) => {
-    if (!name || !pass) {
-      setQrData(null);
-      return;
-    }
-
-    const id = BOOTH_IDS[name];
-    if (!id) return;
-
-    const baseUrl = window.location.origin + getPath("/booth");
-    const url = `${baseUrl}?id=${id}&pwd=${encodeURIComponent(pass)}`;
-    const qrImg = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(url)}`;
-    setQrData({ url, qrImg });
-  }, []);
+    },
+    [isAdmin, message]
+  );
 
   useEffect(() => {
-    if (selectedStall && password) {
-      generateQR(selectedStall, password);
+    if (selectedStall) {
+      generateQR(selectedStall);
     } else {
       setQrData(null);
     }
-  }, [selectedStall, password, generateQR]);
+  }, [selectedStall, generateQR]);
 
   const handleStallChange = (name: string) => {
     setSelectedStall(name);
   };
 
-  const handlePasswordChange = (pass: string) => {
-    setPassword(pass);
-  };
-
   const handleCopy = async () => {
     if (!qrData) return;
+
     try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(qrData.url);
-        message.success("URLをコピーしました");
-      } else {
-        throw new Error("Clipboard API not supported");
-      }
-    } catch (err) {
+      await navigator.clipboard.writeText(qrData.url);
+      message.success("URLをコピーしました");
+    } catch {
       const textArea = document.createElement("textarea");
+
       textArea.value = qrData.url;
       textArea.style.position = "fixed";
       textArea.style.opacity = "0";
+
       document.body.appendChild(textArea);
+
       textArea.focus();
       textArea.select();
+
       try {
         document.execCommand("copy");
         message.success("URLをコピーしました");
-      } catch (fallbackErr) {
+      } catch {
         message.error("コピーに失敗しました");
       } finally {
         document.body.removeChild(textArea);
@@ -97,15 +128,18 @@ export const useBoothQRManager = () => {
     }
   };
 
-  const stallOptions = Object.keys(BOOTH_IDS).map((name) => ({ label: name, value: name }));
+  const stallOptions = Object.keys(BOOTH_IDS).map(
+    (name) => ({
+      label: name,
+      value: name,
+    })
+  );
 
   return {
     selectedStall,
-    password,
     qrData,
     loading,
     handleStallChange,
-    handlePasswordChange,
     handleCopy,
     stallOptions,
   };

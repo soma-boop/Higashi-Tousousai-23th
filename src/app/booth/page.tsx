@@ -5,21 +5,39 @@ import { useRole } from "@/contexts/RoleContext";
 import React from "react";
 import FullPageLoader from "@/components/Layout/FullPageLoader";
 import { useSearchParams, useRouter } from "next/navigation";
-import { loginAsStallAdmin } from "@/features/auth/api";
 import { BOOTH_IDS } from "@/constants/booth-ids";
 import styles from "./page.module.css";
 import { AnimatePresence, motion } from "framer-motion";
 import ClosedView from "@/app/_components/ClosedView";
+import dayjs from "dayjs";
+import { CUSTOM_CONFIG } from "@/constants/custom.config";
 
 const AdminView = React.lazy(() => import("@/app/admin/_components/AdminView"));
 
 export default function BoothAdminPage() {
-  const { setRole, isStallAdmin, isAdmin, assignedStall, isAuthenticating } = useRole();
-  const [showClosedOverlay, setShowClosedOverlay] = React.useState(true);
+  const {
+    setRole,
+    isStallAdmin,
+    isAdmin,
+    assignedStall,
+    isAuthenticating,
+  } = useRole();
+
+  const [showClosedOverlay, setShowClosedOverlay] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  useEffect(() => {
+  const now = dayjs();
+  const eventEnd = dayjs(
+    CUSTOM_CONFIG.identity.eventEndDate
+  ).endOf("day");
+
+  setShowClosedOverlay(now.isAfter(eventEnd));
+}, []);
 
   useEffect(() => {
     if (isAdmin) {
@@ -29,40 +47,73 @@ export default function BoothAdminPage() {
 
   useEffect(() => {
     const id = searchParams.get("id");
-    const pwd = searchParams.get("pwd");
-    const stallName = Object.keys(BOOTH_IDS).find((name) => BOOTH_IDS[name] === id);
+    const token = searchParams.get("token");
 
-    const checkAuth = async (stallId: string, name: string, pass: string) => {
+    const stallName = Object.keys(BOOTH_IDS).find(
+      (name) => BOOTH_IDS[name] === id
+    );
+
+    const checkAuth = async (
+      stallId: string,
+      name: string,
+      boothToken: string
+    ) => {
       setLoading(true);
+      setError("");
+
       try {
-        await loginAsStallAdmin(pass);
-        console.log("[Booth Page] Authorized via secure QR password.");
+        // QRから受け取ったIDとtokenを保存
         if (typeof window !== "undefined") {
-          sessionStorage.setItem("booth_pwd", pass);
+          sessionStorage.setItem("booth_id", stallId);
+          sessionStorage.setItem("booth_token", boothToken);
         }
+
+        // ブース責任者として認識
         setRole("stall-admin", name);
+
+        // URLからtokenを消して、画面上に残さない
         const params = new URLSearchParams(searchParams.toString());
-        params.delete("pwd");
         params.delete("id");
-        router.replace(`/booth?${params.toString()}`);
-      } catch (loginErr: any) {
-        console.error("[Booth Page] QR login failed:", loginErr);
-        setError("ログインに失敗しました。QRコードが正しいか確認してください。");
+        params.delete("token");
+
+        const query = params.toString();
+
+        router.replace(query ? `/booth?${query}` : "/booth");
+      } catch (err) {
+        console.error("[Booth Page] QR authorization failed:", err);
+
+        setError(
+          "ログインに失敗しました。QRコードが正しいか確認してください。"
+        );
+      } finally {
+        setLoading(false);
       }
-      setLoading(true);
     };
 
-    if (stallName && id && pwd) {
-      checkAuth(id, stallName, pwd);
-    } else if (!assignedStall) {
+    if (stallName && id && token) {
+      checkAuth(id, stallName, token);
+      return;
+    }
+
+    if (!assignedStall) {
       if (!isAuthenticating && !isStallAdmin) {
         const timer = setTimeout(() => {
-          if (!isStallAdmin) router.replace("/");
+          if (!isStallAdmin) {
+            router.replace("/");
+          }
         }, 1000);
+
         return () => clearTimeout(timer);
       }
     }
-  }, [searchParams, assignedStall, isStallAdmin, setRole, router, isAuthenticating]);
+  }, [
+    searchParams,
+    assignedStall,
+    isStallAdmin,
+    setRole,
+    router,
+    isAuthenticating,
+  ]);
 
   if (isAuthenticating || loading) {
     return <FullPageLoader />;
@@ -78,12 +129,19 @@ export default function BoothAdminPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              style={{ zIndex: 20000, position: "fixed", inset: 0 }}
+              style={{
+                zIndex: 20000,
+                position: "fixed",
+                inset: 0,
+              }}
             >
-              <ClosedView onClose={() => setShowClosedOverlay(false)} />
+              <ClosedView
+                onClose={() => setShowClosedOverlay(false)}
+              />
             </motion.div>
           )}
         </AnimatePresence>
+
         <Suspense fallback={<FullPageLoader />}>
           <AdminView />
         </Suspense>
@@ -100,20 +158,34 @@ export default function BoothAdminPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            style={{ zIndex: 20000, position: "fixed", inset: 0 }}
+            style={{
+              zIndex: 20000,
+              position: "fixed",
+              inset: 0,
+            }}
           >
-            <ClosedView onClose={() => setShowClosedOverlay(false)} />
+            <ClosedView
+              onClose={() => setShowClosedOverlay(false)}
+            />
           </motion.div>
         )}
       </AnimatePresence>
+
       <div className={styles.inner}>
-        <h3 className={styles.title}>アクセス制限</h3>
+        <h3 className={styles.title}>
+          アクセス制限
+        </h3>
+
         <p className={styles.description}>
-          前の担当者が表示した「交代用QR」を読み取るか、運営チームからログインQRを取得してください。
+          前の担当者が表示した「交代用QR」を読み取るか、
+          運営チームからログインQRを取得してください。
         </p>
+
         {error && (
           <div className={styles.errorContainer}>
-            <span className={styles.errorText}>{error}</span>
+            <span className={styles.errorText}>
+              {error}
+            </span>
           </div>
         )}
       </div>
