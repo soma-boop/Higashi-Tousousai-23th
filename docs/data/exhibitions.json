@@ -1,107 +1,114 @@
 [
   {
-    "id": 1,
+    "id": 11,
     "name": "一攫千金～さやかワールド",
     "team": "1の4",
     "place": "1-3教室・1-4教室",
-    "image": ""
+    "image": "/img/booth/14H.jpg"
   },
   {
-    "id": 2,
+    "id": 12,
     "name": "ハッピーアキライダー",
     "team": "1の5",
     "place": "多目的室",
-    "image": ""
+    "image": "/img/booth/15H.jpg"
   },
   {
-    "id": 3,
+    "id": 13,
     "name": "村田神社",
     "team": "1の6",
     "place": "1-6教室",
     "image": ""
   },
   {
-    "id": 4,
+    "id": 14,
     "name": "スタジオたけだ",
     "team": "2の1",
     "place": "2-1教室",
-    "image": ""
+    "image": "/img/booth/21H.jpg"
   },
   {
-    "id": 5,
-    "name": "おかえりなさいませ…ご主人様",
+    "id": 15,
+    "name": "おかえりなさいませご主人様。",
     "team": "2の2",
     "place": "1-1教室・1-2教室",
-    "image": ""
+    "image": "/img/booth/22H.jpg"
   },
   {
-    "id": 6,
+    "id": 16,
     "name": "とくミッチーランド",
     "team": "2の3",
     "place": "2-3教室・第三選択教室",
-    "image": ""
+    "image": "/img/booth/23H.jpg"
   },
   {
-    "id": 7,
+    "id": 17,
     "name": "海賊だぜ～",
     "team": "2の4",
     "place": "2-4教室",
     "image": ""
   },
   {
-    "id": 8,
+    "id": 18,
     "name": "夜魔堕",
     "team": "2の5",
     "place": "2-5教室",
-    "image": ""
+    "image": "/img/booth/25H.jpg"
   },
   {
-    "id": 9,
+    "id": 19,
     "name": "東窓シネマズ",
     "team": "放送部",
     "place": "会議室",
-    "image": ""
+    "image": "/img/ex/放送部.jpg"
   },
   {
-    "id": 10,
+    "id": 20,
     "name": "なぞなぞwalking",
     "team": "英語部",
     "place": "第二選択教室",
-    "image": ""
+    "image": "/img/ex/英語部.jpg"
   },
   {
-    "id": 11,
+    "id": 21,
     "name": "学藝部回廊",
     "team": "学芸部",
     "place": "2階西渡り廊下",
-    "image": ""
+    "image": "/img/ex/学芸部.jpg"
   },
   {
-    "id": 12,
+    "id": 22,
     "name": "WANTED ～ティーチャーズを探せ～",
     "team": "美術部",
     "place": "学校全域・美術室",
     "image": ""
   },
   {
-    "id": 13,
+    "id": 23,
     "name": "おやつ処 ～美味しすぎて滅❢～",
     "team": "家庭部",
     "place": "調理室・被服室",
-    "image": ""
+    "image": "/img/ex/家庭部.jpg"
   },
   {
-    "id": 14,
+    "id": 24,
     "name": "私たちの写真",
     "team": "写真部",
     "place": "2階東渡り廊下",
     "image": ""
   },
   {
-    "id": 15,
+    "id": 25,
     "name": "東庵茶会",
     "team": "茶道部",
     "place": "茶道部部室",
+    "image": "/img/ex/茶道部.jpg"
+  },
+  {
+    "id": 26,
+    "name": "ヒカリモって知ってる？",
+    "team": "科学部",
+    "place": "化学実験室",
     "image": ""
   }
 ]
