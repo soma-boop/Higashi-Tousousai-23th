@@ -3,7 +3,7 @@
     "id": 11,
     "name": "一攫千金～さやかワールド",
     "team": "1の4",
-    "place": "1-3教室・1-4教室",
+    "place": "1-4教室・1-5教室",
     "image": "/img/booth/14H.jpg"
   },
   {
@@ -18,20 +18,20 @@
     "name": "村田神社",
     "team": "1の6",
     "place": "1-6教室",
-    "image": ""
+    "image": "/img/booth/16H.jpg"
   },
   {
     "id": 14,
     "name": "スタジオたけだ",
     "team": "2の1",
-    "place": "2-1教室",
+    "place": "1-3教室",
     "image": "/img/booth/21H.jpg"
   },
   {
     "id": 15,
     "name": "おかえりなさいませご主人様。",
     "team": "2の2",
-    "place": "1-1教室・1-2教室",
+    "place": "2-1教室・2-2教室",
     "image": "/img/booth/22H.jpg"
   },
   {
@@ -46,7 +46,7 @@
     "name": "海賊だぜ～",
     "team": "2の4",
     "place": "2-4教室",
-    "image": ""
+    "image": "/img/booth/24H.jpg"
   },
   {
     "id": 18,
@@ -66,7 +66,7 @@
     "id": 20,
     "name": "なぞなぞwalking",
     "team": "英語部",
-    "place": "第二選択教室",
+    "place": "1-2教室",
     "image": "/img/ex/英語部.jpg"
   },
   {
@@ -81,34 +81,34 @@
     "name": "WANTED ～ティーチャーズを探せ～",
     "team": "美術部",
     "place": "学校全域・美術室",
-    "image": ""
-  },
-  {
-    "id": 23,
-    "name": "おやつ処 ～美味しすぎて滅❢～",
-    "team": "家庭部",
-    "place": "調理室・被服室",
-    "image": "/img/ex/家庭部.jpg"
+    "image": "/img/ex/美術部.jpg"
   },
   {
     "id": 24,
     "name": "私たちの写真",
     "team": "写真部",
     "place": "2階東渡り廊下",
-    "image": ""
+    "image": "/img/ex/写真部.jpg"
   },
   {
     "id": 25,
     "name": "東庵茶会",
     "team": "茶道部",
-    "place": "茶道部部室",
+    "place": "第一選択教室",
     "image": "/img/ex/茶道部.jpg"
   },
   {
     "id": 26,
     "name": "ヒカリモって知ってる？",
     "team": "科学部",
-    "place": "化学実験室",
+    "place": "生物実験室",
     "image": ""
+  },
+  {
+    "id": 27,
+    "name": "物品販売",
+    "team": "生徒会",
+    "place": "3-6教室",
+    "image": "/img/ex/生徒会.png"
   }
 ]

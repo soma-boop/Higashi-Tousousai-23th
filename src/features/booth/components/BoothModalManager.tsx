@@ -1,52 +1,205 @@
 "use client";
 
-import React, { useMemo, useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
-import BoothDetailModal, { BoothItem } from "./BoothDetailModal";
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
+import BoothDetailModal, {
+  BoothItem,
+} from "./BoothDetailModal";
+
 import { loadJSON } from "@/lib/Data/JSONLoader";
 import { Exhibition } from "@/features/map/hooks/useSpotInfo";
 
-function ModalContent() {
-  const searchParams = useSearchParams();
-  const selectedName = searchParams.get("booth-info");
-  const checkinName = searchParams.get("checkin");
+export default function BoothModalManager() {
+  const [
+    targetName,
+    setTargetName,
+  ] = useState<
+    string | null
+  >(null);
 
-  const [allStalls, setAllStalls] = useState<BoothItem[]>([]);
-  const [allExhibitions, setAllExhibitions] = useState<Exhibition[]>([]);
+  const [
+    allStalls,
+    setAllStalls,
+  ] = useState<
+    BoothItem[]
+  >([]);
+
+  const [
+    allExhibitions,
+    setAllExhibitions,
+  ] = useState<
+    Exhibition[]
+  >([]);
+
+  // ----------------------------------
+  // URLから選択中の名前を取得
+  // ----------------------------------
 
   useEffect(() => {
-    loadJSON("booth").then(setAllStalls);
-    loadJSON("exhibitions").then(setAllExhibitions);
+    const syncFromUrl = () => {
+      const params =
+        new URLSearchParams(
+          window.location.search,
+        );
+
+      const name =
+        params.get(
+          "booth-info",
+        ) ||
+        params.get(
+          "checkin",
+        );
+
+      setTargetName(name);
+    };
+
+    // 初回
+    syncFromUrl();
+
+    // 戻る/進む
+    window.addEventListener(
+      "popstate",
+      syncFromUrl,
+    );
+
+    // 詳細クリック時
+    window.addEventListener(
+      "booth-info-change",
+      syncFromUrl,
+    );
+
+    return () => {
+      window.removeEventListener(
+        "popstate",
+        syncFromUrl,
+      );
+
+      window.removeEventListener(
+        "booth-info-change",
+        syncFromUrl,
+      );
+    };
   }, []);
 
-  const selectedBooth = useMemo(() => {
-    const targetName = selectedName || checkinName;
-    if (!targetName) return null;
-    const stall = allStalls.find((s) => s.name === selectedName);
-    if (stall) return stall;
+  // ----------------------------------
+  // データ読込
+  // ----------------------------------
 
-    const exhibition = allExhibitions.find((e) => e.name === selectedName);
-    if (exhibition) {
-      return {
-        name: exhibition.name,
-        team: exhibition.team,
-        place: exhibition.place,
-        image: exhibition.image,
-      } as BoothItem;
-    }
+  useEffect(() => {
+    const loadData =
+      async () => {
+        try {
+          const [
+            stalls,
+            exhibitions,
+          ] =
+            await Promise.all([
+              loadJSON(
+                "booth",
+              ),
+              loadJSON(
+                "exhibitions",
+              ),
+            ]);
 
+          setAllStalls(
+            Array.isArray(
+              stalls,
+            )
+              ? stalls
+              : [],
+          );
+
+          setAllExhibitions(
+            Array.isArray(
+              exhibitions,
+            )
+              ? exhibitions
+              : [],
+          );
+        } catch (
+          error
+        ) {
+          console.error(
+            "[BoothModalManager] Failed to load data:",
+            error,
+          );
+
+          setAllStalls([]);
+          setAllExhibitions(
+            [],
+          );
+        }
+      };
+
+    loadData();
+  }, []);
+
+  // ----------------------------------
+  // 模擬店・展示を検索
+  // ----------------------------------
+
+  const selectedBooth =
+    useMemo(() => {
+      if (!targetName) {
+        return null;
+      }
+
+      const stall =
+        allStalls.find(
+          (item) =>
+            item.name ===
+            targetName,
+        );
+
+      if (stall) {
+        return stall;
+      }
+
+      const exhibition =
+        allExhibitions.find(
+          (item) =>
+            item.name ===
+            targetName,
+        );
+
+      if (
+        exhibition
+      ) {
+        return {
+          name:
+            exhibition.name,
+          team:
+            exhibition.team,
+          place:
+            exhibition.place,
+          image:
+            exhibition.image,
+        } as BoothItem;
+      }
+
+      return null;
+    }, [
+      targetName,
+      allStalls,
+      allExhibitions,
+    ]);
+
+  if (
+    !targetName ||
+    !selectedBooth
+  ) {
     return null;
-  }, [selectedName, allStalls, allExhibitions]);
+  }
 
-  if (!selectedBooth) return null;
-
-  return <BoothDetailModal item={selectedBooth} />;
-}
-
-export default function BoothModalManager() {
   return (
-    <Suspense fallback={null}>
-      <ModalContent />
-    </Suspense>
+    <BoothDetailModal
+      key={targetName}
+      item={selectedBooth}
+    />
   );
 }

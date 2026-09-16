@@ -45,6 +45,18 @@
       { "content": "やきそば", "price": 500 },
       { "content": "焼き鳥(2本)", "price": 300 }
     ],
-    "image": ""
+    "image": "/img/booth/35H.jpg"
+  },
+  {
+    "id": 5,
+    "name": "おやつ処ひがし ～美味すぎて滅♡",
+    "team": "家庭部",
+    "place": "調理室",
+    "menu": [
+      { "content": "チェッカークッキー＆ディアマンクッキー", "price": 100 },
+      { "content": "ガナッシュクッキー", "price": 100 },
+      { "content": "チョコチップスコーン", "price": 100 }
+    ],
+    "image": "/img/ex/家庭部.jpg"
   }
 ]

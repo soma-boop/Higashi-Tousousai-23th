@@ -1,16 +1,18 @@
 "use client";
+
 import React from "react";
+import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { getPath } from "@/constants/paths";
+
 import styles from "./BoothDetailModal.module.css";
+
 import CloseIcon from "@mui/icons-material/Close";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import { useTheme } from "@/contexts/ThemeContext";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ListIcon from "@mui/icons-material/List";
-import AirplaneTicketOutlinedIcon from "@mui/icons-material/AirplaneTicketOutlined";
-import AirplaneTicketIcon from "@mui/icons-material/AirplaneTicket";
+
 import { useBoothDetail } from "../hooks/useBoothDetail";
 
 type ProductModalPropsMenu = {
@@ -32,11 +34,24 @@ interface BoothDetailModalProps {
   item: BoothItem;
 }
 
-export default function BoothDetailModal({ item }: BoothDetailModalProps) {
-  const theme = useTheme();
-  const isDark = theme?.isDarkMode || false;
+export default function BoothDetailModal({
+  item,
+}: BoothDetailModalProps) {
   const { t } = useTranslation();
-  const [imgError, setImgError] = React.useState(false);
+
+  const [imgError, setImgError] =
+    React.useState(false);
+
+  const [mounted, setMounted] =
+    React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+
+    return () => {
+      setMounted(false);
+    };
+  }, []);
 
   React.useEffect(() => {
     setImgError(false);
@@ -44,7 +59,6 @@ export default function BoothDetailModal({ item }: BoothDetailModalProps) {
 
   const {
     show,
-    showHidden,
     isMenuExpanded,
     setIsMenuExpanded,
     modalRef,
@@ -54,100 +68,324 @@ export default function BoothDetailModal({ item }: BoothDetailModalProps) {
     mapControl,
   } = useBoothDetail(item);
 
-  const isAccordion = (item.menu?.length ?? 0) >= 4;
+  const isAccordion =
+    (item.menu?.length ?? 0) >= 4;
 
   const onShare = () => {
-    handleShare(`${item.name} | 模擬店詳細`, `${item.name} (${item.team || ""}) の詳細をチェック`);
+    handleShare(
+      `${item.name} | 詳細`,
+      `${item.name} (${item.team || ""}) の詳細をチェック`,
+    );
   };
 
-  return (
-    <div className={`${styles.overlay} ${show ? styles.open : ""}`} onClick={handleClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.closeBtn} onClick={handleClose}>
+  if (!mounted) {
+    return null;
+  }
+
+  const modal = (
+    <div
+      className={`${styles.overlay} ${
+        show ? styles.open : ""
+      }`}
+      onClick={handleClose}
+    >
+      <div
+        className={styles.modal}
+        onClick={(e) =>
+          e.stopPropagation()
+        }
+      >
+        <button
+          className={styles.closeBtn}
+          onClick={handleClose}
+          aria-label="閉じる"
+        >
           <CloseIcon />
         </button>
-        <div className={styles.scrollArea} ref={modalRef}>
+
+        <div
+          className={styles.scrollArea}
+          ref={modalRef}
+        >
           {!imgError && item.image ? (
             <>
               <img
                 src={getPath(item.image)}
                 alt={item.name}
                 className={styles.image}
-                onError={() => setImgError(true)}
+                onError={() =>
+                  setImgError(true)
+                }
               />
-              <img src={getPath(item.image)} alt={item.name} className={styles.imageback} />
+
+              <img
+                src={getPath(item.image)}
+                alt=""
+                className={
+                  styles.imageback
+                }
+                aria-hidden="true"
+              />
             </>
           ) : (
-            <div className={styles.imagePlaceholder}>
-              <p className={styles.placeholderText}>{item.name}</p>
+            <div
+              className={
+                styles.imagePlaceholder
+              }
+            >
+              <p
+                className={
+                  styles.placeholderText
+                }
+              >
+                {item.name}
+              </p>
             </div>
           )}
-          <div className={styles.content}>
-            <p className={styles.name}>{item.name}</p>
-            {item.team && <p className={styles.team}>{item.team}</p>}
 
-            <div className={styles.details}>
+          <div className={styles.content}>
+            <p className={styles.name}>
+              {item.name}
+            </p>
+
+            {item.team && (
+              <p className={styles.team}>
+                {item.team}
+              </p>
+            )}
+
+            <div
+              className={
+                styles.details
+              }
+            >
               {item.place && (
                 <div
-                  className={`${styles.detailItem} ${mapControl ? styles.clickable : ""}`}
-                  onClick={handleLocationClick}
+                  className={`${styles.detailItem} ${
+                    mapControl
+                      ? styles.clickable
+                      : ""
+                  }`}
+                  onClick={
+                    handleLocationClick
+                  }
                 >
-                  <div className={styles.iconWrapper}>
-                    <LocationOnOutlinedIcon className={styles.detailIcon} />
+                  <div
+                    className={
+                      styles.iconWrapper
+                    }
+                  >
+                    <LocationOnOutlinedIcon
+                      className={
+                        styles.detailIcon
+                      }
+                    />
                   </div>
+
                   <div>
-                    <div className={styles.detailItemInner}>
-                      <p className={styles.value}>{item.place}&ensp;</p>
-                      {mapControl && <p className={styles.mapLink}>{t("Booth.ViewMap")} ↗</p>}
+                    <div
+                      className={
+                        styles.detailItemInner
+                      }
+                    >
+                      <p
+                        className={
+                          styles.value
+                        }
+                      >
+                        {item.place}
+                        &ensp;
+                      </p>
+
+                      {mapControl && (
+                        <p
+                          className={
+                            styles.mapLink
+                          }
+                        >
+                          {t(
+                            "Booth.ViewMap",
+                          )}{" "}
+                          ↗
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
               )}
 
-              {item.menu && item.menu.length > 0 && (
-                <div className={styles.detailItem}>
-                  <div className={styles.iconWrapper}>
-                    <ListIcon className={styles.detailIcon} />
-                  </div>
-                  <div className={styles.menuContainer}>
-                    {isAccordion ? (
-                      <>
-                        <div className={styles.accordionHeader} onClick={() => setIsMenuExpanded(!isMenuExpanded)}>
-                          <p className={styles.value}>
-                            {t("Booth.ViewMenu")} ({item.menu.length}件)
-                          </p>
-                          <ExpandMoreIcon
-                            className={`${styles.accordionIcon} ${isMenuExpanded ? styles.expanded : ""}`}
-                          />
-                        </div>
-                        <div className={`${styles.accordionContent} ${isMenuExpanded ? styles.expanded : ""}`}>
-                          <div className={styles.menuGrid}>
-                            {item.menu.map((item_menu, index) => (
-                              <React.Fragment key={index}>
-                                <span className={styles.value}>{item_menu.content}</span>
-                                <span className={`${styles.value} ${styles.menuPrice}`}>{item_menu.price}円</span>
-                              </React.Fragment>
-                            ))}
+              {item.menu &&
+                item.menu.length >
+                  0 && (
+                  <div
+                    className={
+                      styles.detailItem
+                    }
+                  >
+                    <div
+                      className={
+                        styles.iconWrapper
+                      }
+                    >
+                      <ListIcon
+                        className={
+                          styles.detailIcon
+                        }
+                      />
+                    </div>
+
+                    <div
+                      className={
+                        styles.menuContainer
+                      }
+                    >
+                      {isAccordion ? (
+                        <>
+                          <div
+                            className={
+                              styles.accordionHeader
+                            }
+                            onClick={() =>
+                              setIsMenuExpanded(
+                                !isMenuExpanded,
+                              )
+                            }
+                          >
+                            <p
+                              className={
+                                styles.value
+                              }
+                            >
+                              {t(
+                                "Booth.ViewMenu",
+                              )}{" "}
+                              (
+                              {
+                                item.menu
+                                  .length
+                              }
+                              件)
+                            </p>
+
+                            <ExpandMoreIcon
+                              className={`${styles.accordionIcon} ${
+                                isMenuExpanded
+                                  ? styles.expanded
+                                  : ""
+                              }`}
+                            />
                           </div>
+
+                          <div
+                            className={`${styles.accordionContent} ${
+                              isMenuExpanded
+                                ? styles.expanded
+                                : ""
+                            }`}
+                          >
+                            <div
+                              className={
+                                styles.menuGrid
+                              }
+                            >
+                              {item.menu.map(
+                                (
+                                  menuItem,
+                                  index,
+                                ) => (
+                                  <React.Fragment
+                                    key={
+                                      index
+                                    }
+                                  >
+                                    <span
+                                      className={
+                                        styles.value
+                                      }
+                                    >
+                                      {
+                                        menuItem.content
+                                      }
+                                    </span>
+
+                                    <span
+                                      className={`${styles.value} ${styles.menuPrice}`}
+                                    >
+                                      {
+                                        menuItem.price
+                                      }
+                                      円
+                                    </span>
+                                  </React.Fragment>
+                                ),
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <div
+                          className={
+                            styles.menuGrid
+                          }
+                        >
+                          {item.menu.map(
+                            (
+                              menuItem,
+                              index,
+                            ) => (
+                              <React.Fragment
+                                key={
+                                  index
+                                }
+                              >
+                                <span
+                                  className={
+                                    styles.value
+                                  }
+                                >
+                                  {
+                                    menuItem.content
+                                  }
+                                </span>
+
+                                <span
+                                  className={`${styles.value} ${styles.menuPrice}`}
+                                >
+                                  {
+                                    menuItem.price
+                                  }
+                                  円
+                                </span>
+                              </React.Fragment>
+                            ),
+                          )}
                         </div>
-                      </>
-                    ) : (
-                      <div className={styles.menuGrid}>
-                        {item.menu.map((item_menu, index) => (
-                          <React.Fragment key={index}>
-                            <span className={styles.value}>{item_menu.content}</span>
-                            <span className={`${styles.value} ${styles.menuPrice}`}>{item_menu.price}円</span>
-                          </React.Fragment>
-                        ))}
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
             </div>
-            <div className={styles.actionButtons}>
-              <button className={styles.shareBtn} onClick={onShare}>
-                <ShareOutlinedIcon className={styles.detailIcon} style={{ color: "inherit" }} />
+
+            <div
+              className={
+                styles.actionButtons
+              }
+            >
+              <button
+                className={
+                  styles.shareBtn
+                }
+                onClick={onShare}
+              >
+                <ShareOutlinedIcon
+                  className={
+                    styles.detailIcon
+                  }
+                  style={{
+                    color: "inherit",
+                  }}
+                />
+
                 {t("Booth.Share")}
               </button>
             </div>
@@ -155,5 +393,11 @@ export default function BoothDetailModal({ item }: BoothDetailModalProps) {
         </div>
       </div>
     </div>
+  );
+
+  // レイアウト内部ではなく body 直下へ描画
+  return createPortal(
+    modal,
+    document.body,
   );
 }
