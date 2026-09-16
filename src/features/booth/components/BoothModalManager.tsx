@@ -12,31 +12,20 @@ import BoothDetailModal, {
 
 import { loadJSON } from "@/lib/Data/JSONLoader";
 import { Exhibition } from "@/features/map/hooks/useSpotInfo";
+import { getPath } from "@/constants/paths";
 
 export default function BoothModalManager() {
-  const [
-    targetName,
-    setTargetName,
-  ] = useState<
-    string | null
-  >(null);
+  const [targetName, setTargetName] =
+    useState<string | null>(null);
 
-  const [
-    allStalls,
-    setAllStalls,
-  ] = useState<
-    BoothItem[]
-  >([]);
+  const [allStalls, setAllStalls] =
+    useState<BoothItem[]>([]);
 
-  const [
-    allExhibitions,
-    setAllExhibitions,
-  ] = useState<
-    Exhibition[]
-  >([]);
+  const [allExhibitions, setAllExhibitions] =
+    useState<Exhibition[]>([]);
 
   // ----------------------------------
-  // URLから選択中の名前を取得
+  // URLから現在選択中のブース名を取得
   // ----------------------------------
 
   useEffect(() => {
@@ -47,12 +36,8 @@ export default function BoothModalManager() {
         );
 
       const name =
-        params.get(
-          "booth-info",
-        ) ||
-        params.get(
-          "checkin",
-        );
+        params.get("booth-info") ||
+        params.get("checkin");
 
       setTargetName(name);
     };
@@ -60,13 +45,13 @@ export default function BoothModalManager() {
     // 初回
     syncFromUrl();
 
-    // 戻る/進む
+    // ブラウザの戻る・進む
     window.addEventListener(
       "popstate",
       syncFromUrl,
     );
 
-    // 詳細クリック時
+    // ブースクリック時
     window.addEventListener(
       "booth-info-change",
       syncFromUrl,
@@ -86,61 +71,116 @@ export default function BoothModalManager() {
   }, []);
 
   // ----------------------------------
-  // データ読込
+  // 模擬店・展示データ読み込み
   // ----------------------------------
 
   useEffect(() => {
-    const loadData =
-      async () => {
-        try {
-          const [
-            stalls,
-            exhibitions,
-          ] =
-            await Promise.all([
-              loadJSON(
-                "booth",
-              ),
-              loadJSON(
-                "exhibitions",
-              ),
-            ]);
+    const loadData = async () => {
+      try {
+        const [
+          stalls,
+          exhibitions,
+        ] = await Promise.all([
+          loadJSON("booth"),
+          loadJSON("exhibitions"),
+        ]);
 
-          setAllStalls(
-            Array.isArray(
-              stalls,
-            )
-              ? stalls
-              : [],
-          );
+        setAllStalls(
+          Array.isArray(stalls)
+            ? stalls
+            : [],
+        );
 
-          setAllExhibitions(
-            Array.isArray(
-              exhibitions,
-            )
-              ? exhibitions
-              : [],
-          );
-        } catch (
-          error
-        ) {
-          console.error(
-            "[BoothModalManager] Failed to load data:",
-            error,
-          );
+        setAllExhibitions(
+          Array.isArray(exhibitions)
+            ? exhibitions
+            : [],
+        );
+      } catch (error) {
+        console.error(
+          "[BoothModalManager] Failed to load data:",
+          error,
+        );
 
-          setAllStalls([]);
-          setAllExhibitions(
-            [],
-          );
-        }
-      };
+        setAllStalls([]);
+        setAllExhibitions([]);
+      }
+    };
 
     loadData();
   }, []);
 
   // ----------------------------------
-  // 模擬店・展示を検索
+  // 詳細画像をバックグラウンドで先読み
+  // ----------------------------------
+
+  useEffect(() => {
+    const imagePaths = [
+      ...allStalls.map(
+        (item) => item.image,
+      ),
+      ...allExhibitions.map(
+        (item) => item.image,
+      ),
+    ].filter(
+      (path): path is string =>
+        Boolean(path),
+    );
+
+    const uniquePaths =
+      Array.from(
+        new Set(imagePaths),
+      );
+
+    if (
+      uniquePaths.length === 0
+    ) {
+      return;
+    }
+
+    const preloadImages = () => {
+      uniquePaths.forEach(
+        (path) => {
+          const image =
+            new Image();
+
+          image.src =
+            getPath(path);
+
+          // 対応ブラウザでは
+          // デコードも先に済ませる
+          if (image.decode) {
+            image
+              .decode()
+              .catch(() => {
+                // 先読み失敗は
+                // 通常表示時に再取得されるので無視
+              });
+          }
+        },
+      );
+    };
+
+    // 最初の画面表示を邪魔しないよう、
+    // 少し待ってから画像を先読み
+    const timer =
+      window.setTimeout(
+        preloadImages,
+        700,
+      );
+
+    return () => {
+      window.clearTimeout(
+        timer,
+      );
+    };
+  }, [
+    allStalls,
+    allExhibitions,
+  ]);
+
+  // ----------------------------------
+  // URLで指定された模擬店・展示を検索
   // ----------------------------------
 
   const selectedBooth =
@@ -149,6 +189,7 @@ export default function BoothModalManager() {
         return null;
       }
 
+      // 模擬店
       const stall =
         allStalls.find(
           (item) =>
@@ -160,6 +201,7 @@ export default function BoothModalManager() {
         return stall;
       }
 
+      // 展示
       const exhibition =
         allExhibitions.find(
           (item) =>
@@ -167,9 +209,7 @@ export default function BoothModalManager() {
             targetName,
         );
 
-      if (
-        exhibition
-      ) {
+      if (exhibition) {
         return {
           name:
             exhibition.name,

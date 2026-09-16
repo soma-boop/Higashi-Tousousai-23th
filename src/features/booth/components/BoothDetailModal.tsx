@@ -3,6 +3,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
+
 import { getPath } from "@/constants/paths";
 
 import styles from "./BoothDetailModal.module.css";
@@ -37,13 +38,18 @@ interface BoothDetailModalProps {
 export default function BoothDetailModal({
   item,
 }: BoothDetailModalProps) {
-  const { t } = useTranslation();
+  const { t } =
+    useTranslation();
 
   const [imgError, setImgError] =
     React.useState(false);
 
   const [mounted, setMounted] =
     React.useState(false);
+
+  // ----------------------------------
+  // Portalを使える状態にする
+  // ----------------------------------
 
   React.useEffect(() => {
     setMounted(true);
@@ -53,6 +59,7 @@ export default function BoothDetailModal({
     };
   }, []);
 
+  // 画像が変わったらエラー状態解除
   React.useEffect(() => {
     setImgError(false);
   }, [item.image]);
@@ -69,12 +76,15 @@ export default function BoothDetailModal({
   } = useBoothDetail(item);
 
   const isAccordion =
-    (item.menu?.length ?? 0) >= 4;
+    (item.menu?.length ?? 0) >=
+    4;
 
   const onShare = () => {
     handleShare(
       `${item.name} | 詳細`,
-      `${item.name} (${item.team || ""}) の詳細をチェック`,
+      `${item.name} (${
+        item.team || ""
+      }) の詳細をチェック`,
     );
   };
 
@@ -85,18 +95,22 @@ export default function BoothDetailModal({
   const modal = (
     <div
       className={`${styles.overlay} ${
-        show ? styles.open : ""
+        show
+          ? styles.open
+          : ""
       }`}
       onClick={handleClose}
     >
       <div
         className={styles.modal}
-        onClick={(e) =>
-          e.stopPropagation()
+        onClick={(event) =>
+          event.stopPropagation()
         }
       >
         <button
-          className={styles.closeBtn}
+          className={
+            styles.closeBtn
+          }
           onClick={handleClose}
           aria-label="閉じる"
         >
@@ -104,26 +118,44 @@ export default function BoothDetailModal({
         </button>
 
         <div
-          className={styles.scrollArea}
+          className={
+            styles.scrollArea
+          }
           ref={modalRef}
         >
-          {!imgError && item.image ? (
+          {!imgError &&
+          item.image ? (
             <>
+              {/* メイン画像 */}
               <img
-                src={getPath(item.image)}
+                src={getPath(
+                  item.image,
+                )}
                 alt={item.name}
-                className={styles.image}
+                className={
+                  styles.image
+                }
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
                 onError={() =>
-                  setImgError(true)
+                  setImgError(
+                    true,
+                  )
                 }
               />
 
+              {/* 背景ぼかし画像 */}
               <img
-                src={getPath(item.image)}
+                src={getPath(
+                  item.image,
+                )}
                 alt=""
                 className={
                   styles.imageback
                 }
+                loading="eager"
+                decoding="async"
                 aria-hidden="true"
               />
             </>
@@ -143,13 +175,25 @@ export default function BoothDetailModal({
             </div>
           )}
 
-          <div className={styles.content}>
-            <p className={styles.name}>
+          <div
+            className={
+              styles.content
+            }
+          >
+            <p
+              className={
+                styles.name
+              }
+            >
               {item.name}
             </p>
 
             {item.team && (
-              <p className={styles.team}>
+              <p
+                className={
+                  styles.team
+                }
+              >
                 {item.team}
               </p>
             )}
@@ -159,6 +203,7 @@ export default function BoothDetailModal({
                 styles.details
               }
             >
+              {/* 場所 */}
               {item.place && (
                 <div
                   className={`${styles.detailItem} ${
@@ -193,7 +238,9 @@ export default function BoothDetailModal({
                           styles.value
                         }
                       >
-                        {item.place}
+                        {
+                          item.place
+                        }
                         &ensp;
                       </p>
 
@@ -214,8 +261,10 @@ export default function BoothDetailModal({
                 </div>
               )}
 
+              {/* メニュー */}
               {item.menu &&
-                item.menu.length >
+                item.menu
+                  .length >
                   0 && (
                   <div
                     className={
@@ -261,7 +310,8 @@ export default function BoothDetailModal({
                               )}{" "}
                               (
                               {
-                                item.menu
+                                item
+                                  .menu
                                   .length
                               }
                               件)
@@ -366,6 +416,7 @@ export default function BoothDetailModal({
                 )}
             </div>
 
+            {/* 共有 */}
             <div
               className={
                 styles.actionButtons
@@ -375,18 +426,23 @@ export default function BoothDetailModal({
                 className={
                   styles.shareBtn
                 }
-                onClick={onShare}
+                onClick={
+                  onShare
+                }
               >
                 <ShareOutlinedIcon
                   className={
                     styles.detailIcon
                   }
                   style={{
-                    color: "inherit",
+                    color:
+                      "inherit",
                   }}
                 />
 
-                {t("Booth.Share")}
+                {t(
+                  "Booth.Share",
+                )}
               </button>
             </div>
           </div>
@@ -395,7 +451,8 @@ export default function BoothDetailModal({
     </div>
   );
 
-  // レイアウト内部ではなく body 直下へ描画
+  // 親レイアウトの影響を受けないよう
+  // body直下に表示
   return createPortal(
     modal,
     document.body,
