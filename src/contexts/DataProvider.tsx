@@ -5,6 +5,7 @@ import { DataContext, DataContextType } from "./DataContext";
 import { supabase } from "@/lib/Server/supabase";
 import { fetchAllData } from "@/lib/Server/baseApi";
 import { fetchStallsOnly } from "@/features/booth/api";
+import { askQuestion as postQuestion } from "@/features/qa/api";
 import { StallStatus } from "@/features/booth/types";
 import { NewsItem } from "@/features/news/types";
 import { LostItem } from "@/features/lost/types";
@@ -51,7 +52,7 @@ export const DataProvider = ({
   const [lostItems, setLostItems] =
     useState<LostItem[]>([]);
 
-  const [questions] =
+  const [questions, setQuestions] =
     useState<Question[]>([]);
 
   const [config, setConfig] =
@@ -92,8 +93,6 @@ export const DataProvider = ({
           }
         });
 
-        // Supabaseが利用できない場合でも
-        // booth.jsonから最低限一覧を表示する
         setStalls((current) =>
           current.length > 0
             ? current
@@ -122,7 +121,7 @@ export const DataProvider = ({
   }, []);
 
   // =========================================================
-  // Suspended状態をrefにも保存
+  // Suspended状態
   // =========================================================
 
   const isSuspendedRef =
@@ -152,7 +151,7 @@ export const DataProvider = ({
     >({});
 
   // =========================================================
-  // Supabaseの圧縮日時をISO形式へ変換
+  // 日時変換
   // =========================================================
 
   const parseCompactDate = (
@@ -174,7 +173,7 @@ export const DataProvider = ({
   };
 
   // =========================================================
-  // Supabaseからデータを取得
+  // Supabaseからデータ取得
   // =========================================================
 
   const performRefresh = async (
@@ -205,8 +204,6 @@ export const DataProvider = ({
       ? 0
       : currentInterval - 1000;
 
-    // Realtime接続中なら
-    // 模擬店だけの定期取得は不要
     if (
       !isFullRefresh &&
       isStallsLiveRef.current
@@ -287,7 +284,7 @@ export const DataProvider = ({
         }
 
         // -----------------------------
-        // 全体更新時のみ取得
+        // 全体更新
         // -----------------------------
 
         if (isFullRefresh) {
@@ -331,8 +328,10 @@ export const DataProvider = ({
             );
           }
 
-          // Q&Aは現在停止中
-          /*
+          // -----------------------------
+          // Q&A
+          // -----------------------------
+
           if (allData.q) {
             setQuestions(
               allData.q.map(
@@ -350,7 +349,6 @@ export const DataProvider = ({
               ),
             );
           }
-          */
 
           // 設定
           if (
@@ -382,8 +380,6 @@ export const DataProvider = ({
   // =========================================================
 
   useEffect(() => {
-    // マップや詳細モーダルを開いている間は
-    // 一時的にRealtime接続を解除
     if (isSuspended) {
       setIsStallsLive(false);
 
@@ -482,7 +478,7 @@ export const DataProvider = ({
   }, [isSuspended]);
 
   // =========================================================
-  // 初回データ取得
+  // 初回取得
   // =========================================================
 
   useEffect(() => {
@@ -507,96 +503,11 @@ export const DataProvider = ({
       true;
 
     performRefresh(true);
-
-    // 現在はvisibility監視を停止
-    /*
-    const handleVisibilityChange =
-      () => {
-        if (
-          document.visibilityState ===
-          "visible"
-        ) {
-          const now =
-            Date.now();
-
-          const diff =
-            now -
-            lastFetchTime.current;
-
-          const currentInterval =
-            config.poll_interval_ms ||
-            FETCH_INTERVAL_MS;
-
-          if (
-            diff >
-            currentInterval
-          ) {
-            if (
-              !isSuspended
-            ) {
-              performRefresh(
-                false,
-              );
-            }
-          }
-        }
-      };
-
-    document.addEventListener(
-      "visibilitychange",
-      handleVisibilityChange,
-    );
-
-    return () =>
-      document.removeEventListener(
-        "visibilitychange",
-        handleVisibilityChange,
-      );
-    */
   }, [
     isSuspended,
     config.poll_interval_ms,
     isJSONLoaded,
     isAdminPage,
-  ]);
-
-  // =========================================================
-  // 定期ポーリング
-  // 現在はRealtime優先のため停止
-  // =========================================================
-
-  useEffect(() => {
-    // 現在は停止
-    return;
-
-    /*
-    if (isSuspended) {
-      return;
-    }
-
-    const interval =
-      config.poll_interval_ms ||
-      FETCH_INTERVAL_MS;
-
-    const jitter =
-      Math.floor(
-        Math.random() *
-          5000,
-      );
-
-    const timer =
-      setInterval(
-        () =>
-          performRefresh(),
-        interval + jitter,
-      );
-
-    return () =>
-      clearInterval(timer);
-    */
-  }, [
-    isSuspended,
-    config.poll_interval_ms,
   ]);
 
   // =========================================================
@@ -624,13 +535,17 @@ export const DataProvider = ({
 
       handlePost: () => {},
 
+      // -----------------------------
+      // 質問送信
+      // -----------------------------
+
       askQuestion: async (
         text: string,
       ) => {
-        console.warn(
-          "[DataProvider] askQuestion is currently disabled",
-          text,
-        );
+        await postQuestion(text);
+
+        // 送信直後に最新のQ&Aを取得
+        await performRefresh(true);
       },
 
       lastUpdated,
