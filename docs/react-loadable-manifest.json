@@ -1,0 +1,80 @@
+{
+  "..\\node_modules\\next\\dist\\client\\dev\\hot-reloader\\app\\use-websocket.js -> @vercel/turbopack-ecmascript-runtime/browser/dev/hmr-client/hmr-client.ts": {
+    "id": "..\\node_modules\\next\\dist\\client\\dev\\hot-reloader\\app\\use-websocket.js -> @vercel/turbopack-ecmascript-runtime/browser/dev/hmr-client/hmr-client.ts",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_next_dist_client_dev_noop-turbopack-hmr_js.js"
+    ]
+  },
+  "app\\_components\\UserView.tsx -> @/components/Layout/AppShare": {
+    "id": "app\\_components\\UserView.tsx -> @/components/Layout/AppShare",
+    "files": [
+      "static/chunks/_app-pages-browser_src_components_Layout_AppShare_tsx.js"
+    ]
+  },
+  "app\\_components\\UserView.tsx -> @/features/booth/components/BoothModalManager": {
+    "id": "app\\_components\\UserView.tsx -> @/features/booth/components/BoothModalManager",
+    "files": [
+      "static/css/_app-pages-browser_src_features_booth_components_BoothModalManager_tsx.css",
+      "static/chunks/_app-pages-browser_src_features_booth_components_BoothModalManager_tsx.js"
+    ]
+  },
+  "app\\_components\\UserView.tsx -> @/features/bus/components/BusStatus": {
+    "id": "app\\_components\\UserView.tsx -> @/features/bus/components/BusStatus",
+    "files": [
+      "static/css/_app-pages-browser_src_features_bus_components_BusStatus_tsx.css",
+      "static/chunks/_app-pages-browser_src_features_bus_components_BusStatus_tsx.js"
+    ]
+  },
+  "app\\_components\\UserView.tsx -> @/features/lost/components/LostStatus": {
+    "id": "app\\_components\\UserView.tsx -> @/features/lost/components/LostStatus",
+    "files": [
+      "static/css/_app-pages-browser_src_features_lost_components_LostStatus_tsx.css",
+      "static/chunks/_app-pages-browser_src_features_lost_components_LostStatus_tsx.js"
+    ]
+  },
+  "app\\_components\\UserView.tsx -> @/features/map/components/MapModal": {
+    "id": "app\\_components\\UserView.tsx -> @/features/map/components/MapModal",
+    "files": [
+      "static/chunks/_app-pages-browser_src_features_map_components_MapModal_tsx.js"
+    ]
+  },
+  "app\\_components\\UserView.tsx -> @/features/map/components/SpotStatus": {
+    "id": "app\\_components\\UserView.tsx -> @/features/map/components/SpotStatus",
+    "files": [
+      "static/css/_app-pages-browser_src_features_map_components_SpotStatus_tsx.css",
+      "static/chunks/_app-pages-browser_src_features_map_components_SpotStatus_tsx.js"
+    ]
+  },
+  "app\\_components\\UserView.tsx -> @/features/qa/components/QAStatus": {
+    "id": "app\\_components\\UserView.tsx -> @/features/qa/components/QAStatus",
+    "files": [
+      "static/css/_app-pages-browser_src_features_qa_components_QAStatus_tsx.css",
+      "static/chunks/_app-pages-browser_src_features_qa_components_QAStatus_tsx.js"
+    ]
+  },
+  "app\\page.tsx -> @/app/_components/UserView": {
+    "id": "app\\page.tsx -> @/app/_components/UserView",
+    "files": [
+      "static/css/_app-pages-browser_src_app__components_UserView_tsx.css",
+      "static/chunks/_app-pages-browser_src_app__components_UserView_tsx.js"
+    ]
+  },
+  "components\\Misc\\Settings.tsx -> @/features/vote/api": {
+    "id": "components\\Misc\\Settings.tsx -> @/features/vote/api",
+    "files": []
+  },
+  "features\\map\\components\\MapModal.tsx -> ./MapSection": {
+    "id": "features\\map\\components\\MapModal.tsx -> ./MapSection",
+    "files": [
+      "static/css/_app-pages-browser_src_features_map_components_MapSection_tsx.css",
+      "static/chunks/_app-pages-browser_src_features_map_components_MapSection_tsx.js"
+    ]
+  },
+  "features\\map\\components\\MapSection.tsx -> ./MapInstance": {
+    "id": "features\\map\\components\\MapSection.tsx -> ./MapInstance",
+    "files": [
+      "static/css/_app-pages-browser_src_features_map_components_MapInstance_tsx.css",
+      "static/chunks/_app-pages-browser_src_features_map_components_MapInstance_tsx.js"
+    ]
+  }
+}

@@ -8,7 +8,7 @@ export const MapPins: Record<string, { mapId: number; x: number; y: number }> = 
 
 // category, title, map image path
 export const mapList = [
-  { category: "校舎", title: "1F / 中庭", src: "/img/map/1stmap.png" },
-  { category: "校舎", title: "2F / 3F", src: "/img/map/2and3map.png" },
-  { category: "全体", title: "全体図", src: "/img/map/allmap.png" },
+  { category: "校舎", title: "1F / 中庭", src: "/img/map/１階と中庭.png" },
+  { category: "校舎", title: "2F / 3F", src: "/img/map/2階と3階.png" },
+  { category: "全体", title: "全体図", src: "/img/map/全体図.png" },
 ];
