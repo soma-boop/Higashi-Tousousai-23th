@@ -1,0 +1,136 @@
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 12px 12px 50px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.description {
+  margin: 6px 0 0;
+  opacity: 0.65;
+  font-size: 14px;
+}
+
+.loading {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.section {
+  margin-bottom: 36px;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.sectionTitle h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.cardList {
+  display: grid;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(310px, 1fr)
+    );
+  gap: 14px;
+}
+
+.statusCard {
+  width: 100%;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.idText {
+  display: block;
+  font-size: 11px;
+  opacity: 0.45;
+  margin-bottom: 3px;
+}
+
+.name {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.controlGroup {
+  margin-top: 14px;
+}
+
+.controlTitle {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.buttonRow {
+  display: grid;
+  grid-template-columns:
+    repeat(3, 1fr);
+  gap: 6px;
+}
+
+.buttonRow button {
+  min-width: 0;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 6px 4px 45px;
+  }
+
+  .header {
+    align-items: center;
+  }
+
+  .title {
+    font-size: 21px;
+  }
+
+  .description {
+    font-size: 12px;
+  }
+
+  .cardList {
+    grid-template-columns: 1fr;
+  }
+
+  .buttonRow button {
+    font-size: 12px;
+  }
+}

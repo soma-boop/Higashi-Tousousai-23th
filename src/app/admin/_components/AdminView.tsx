@@ -32,8 +32,13 @@ import PollIcon from "@mui/icons-material/Poll";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import QrCodeIcon from "@mui/icons-material/QrCode";
 import CloudQueueIcon from "@mui/icons-material/CloudQueue";
+import StorefrontRoundedIcon from "@mui/icons-material/StorefrontRounded";
 
 import styles from "./AdminView.module.css";
+
+// =========================================================
+// Lazy Components
+// =========================================================
 
 const NewsManager = React.lazy(
   () =>
@@ -92,9 +97,22 @@ const BoothQRManager = React.lazy(
 );
 
 // 展示QR管理
-const ExhibitionQRManager = React.lazy(
-  () => import("./ExhibitionQRManager"),
-);
+const ExhibitionQRManager =
+  React.lazy(
+    () =>
+      import(
+        "./ExhibitionQRManager"
+      ),
+  );
+
+// 全ブース管理
+const AllStatusManager =
+  React.lazy(
+    () =>
+      import(
+        "./AllStatusManager"
+      ),
+  );
 
 const ServerStatus = React.lazy(
   () =>
@@ -105,19 +123,34 @@ const ServerStatus = React.lazy(
 
 import Settings from "@/components/Misc/Settings";
 
+// =========================================================
+// Fallback
+// =========================================================
+
 const FallbackLoader = ({
   text = "Loading...",
 }: {
   text?: string;
 }) => (
-  <div className={styles.fallbackLoader}>
+  <div
+    className={
+      styles.fallbackLoader
+    }
+  >
     {text}
   </div>
 );
 
+// =========================================================
+// AdminView
+// =========================================================
+
 export default function AdminView() {
-  const isMobile = AspectDetector();
-  const columns = useColumnDetector();
+  const isMobile =
+    AspectDetector();
+
+  const columns =
+    useColumnDetector();
 
   const {
     isAdmin,
@@ -131,21 +164,30 @@ export default function AdminView() {
     },
   } = useData();
 
-  const { message } = AntdApp.useApp();
+  const { message } =
+    AntdApp.useApp();
 
-  const mapControl = useMapControl();
+  const mapControl =
+    useMapControl();
 
-  const [activeTab, setActiveTab] =
-    useState("1");
+  const [
+    activeTab,
+    setActiveTab,
+  ] = useState("1");
 
-  const [subTab, setSubTab] =
-    useState("0");
+  const [
+    subTab,
+    setSubTab,
+  ] = useState("0");
 
-  const [isMoving, setIsMoving] =
-    useState(false);
+  const [
+    isMoving,
+    setIsMoving,
+  ] = useState(false);
 
   const isMapOpen =
-    mapControl?.isMapOpen || false;
+    mapControl?.isMapOpen ||
+    false;
 
   const setIsMapOpen = (
     open: boolean,
@@ -154,27 +196,41 @@ export default function AdminView() {
       ? mapControl?.openMap()
       : mapControl?.closeMap();
 
-  useEffect(() => {
-    if (isMobile) {
-      if (
-        isStallAdmin ||
-        activeTab === "1" ||
-        activeTab === "2"
-      ) {
-        TabSelector(Number(subTab));
-      } else if (
-        activeTab === "3" ||
-        activeTab === "5" ||
-        activeTab === "6"
-      ) {
-        const canvas =
-          document.getElementById(
-            "canvas",
-          );
+  // =========================================================
+  // Mobile tab position control
+  // =========================================================
 
-        if (canvas) {
-          canvas.style.left = "0";
-        }
+  useEffect(() => {
+    if (!isMobile) {
+      return;
+    }
+
+    if (
+      isStallAdmin ||
+      activeTab === "1" ||
+      activeTab === "2"
+    ) {
+      TabSelector(
+        Number(subTab),
+      );
+
+      return;
+    }
+
+    if (
+      activeTab === "3" ||
+      activeTab === "5" ||
+      activeTab === "6" ||
+      activeTab === "7"
+    ) {
+      const canvas =
+        document.getElementById(
+          "canvas",
+        );
+
+      if (canvas) {
+        canvas.style.left =
+          "0";
       }
     }
   }, [
@@ -184,6 +240,10 @@ export default function AdminView() {
     isStallAdmin,
   ]);
 
+  // =========================================================
+  // Manual refresh
+  // =========================================================
+
   const handleManualRefresh =
     async () => {
       try {
@@ -192,190 +252,295 @@ export default function AdminView() {
         message.success(
           "最新データを取得しました",
         );
-      } catch (e) {
+      } catch (error) {
+        console.error(
+          "[AdminView] Refresh failed",
+          error,
+        );
+
         message.error(
           "更新に失敗しました",
         );
       }
     };
 
-  const layout = useMemo(() => {
-    const managers = {
-      News: (
-        <Suspense
-          key="news-mgr"
-          fallback={
-            <FallbackLoader />
-          }
-        >
-          <NewsManager />
-        </Suspense>
-      ),
+  // =========================================================
+  // Layout
+  // =========================================================
 
-      QA: (
-        <Suspense
-          key="qa-mgr"
-          fallback={
-            <FallbackLoader />
-          }
-        >
-          <QAManager />
-        </Suspense>
-      ),
+  const layout =
+    useMemo(() => {
+      const managers = {
+        News: (
+          <Suspense
+            key="news-mgr"
+            fallback={
+              <FallbackLoader />
+            }
+          >
+            <NewsManager />
+          </Suspense>
+        ),
 
-      Lost: (
-        <Suspense
-          key="lost-mgr"
-          fallback={
-            <FallbackLoader />
-          }
-        >
-          <LostManager />
-        </Suspense>
-      ),
+        QA: (
+          <Suspense
+            key="qa-mgr"
+            fallback={
+              <FallbackLoader />
+            }
+          >
+            <QAManager />
+          </Suspense>
+        ),
 
-      Booth: (
-        <Suspense
-          key="booth-mgr"
-          fallback={
-            <FallbackLoader />
-          }
-        >
-          <BoothManager />
-        </Suspense>
-      ),
+        Lost: (
+          <Suspense
+            key="lost-mgr"
+            fallback={
+              <FallbackLoader />
+            }
+          >
+            <LostManager />
+          </Suspense>
+        ),
 
-      QR: (
-        <Suspense
-          key="qr-mgr"
-          fallback={
-            <FallbackLoader />
-          }
-        >
-          <BoothQRManager />
-        </Suspense>
-      ),
+        Booth: (
+          <Suspense
+            key="booth-mgr"
+            fallback={
+              <FallbackLoader />
+            }
+          >
+            <BoothManager />
+          </Suspense>
+        ),
 
-      ExhibitionQR: (
-        <Suspense
-          key="exhibition-qr-mgr"
-          fallback={
-            <FallbackLoader />
-          }
-        >
-          <ExhibitionQRManager />
-        </Suspense>
-      ),
+        QR: (
+          <Suspense
+            key="qr-mgr"
+            fallback={
+              <FallbackLoader />
+            }
+          >
+            <BoothQRManager />
+          </Suspense>
+        ),
 
-      NewsStatus: (
-        <Suspense
-          key="news-status-mgr"
-          fallback={
-            <FallbackLoader />
-          }
-        >
-          <NewsStatus />
-        </Suspense>
-      ),
+        ExhibitionQR: (
+          <Suspense
+            key="exhibition-qr-mgr"
+            fallback={
+              <FallbackLoader />
+            }
+          >
+            <ExhibitionQRManager />
+          </Suspense>
+        ),
 
-      Status: (
-        <Suspense
-          key="status-mgr"
-          fallback={
-            <FallbackLoader />
-          }
-        >
-          <ServerStatus />
-        </Suspense>
-      ),
+        AllStatus: (
+          <Suspense
+            key="all-status-mgr"
+            fallback={
+              <FallbackLoader text="ブース状況を読み込んでいます..." />
+            }
+          >
+            <AllStatusManager />
+          </Suspense>
+        ),
 
-      Settings: (
-        <Settings key="settings-mgr" />
-      ),
-    };
+        NewsStatus: (
+          <Suspense
+            key="news-status-mgr"
+            fallback={
+              <FallbackLoader />
+            }
+          >
+            <NewsStatus />
+          </Suspense>
+        ),
 
-    // ------------------------------------
-    // 模擬店責任者
-    // ------------------------------------
+        Status: (
+          <Suspense
+            key="status-mgr"
+            fallback={
+              <FallbackLoader />
+            }
+          >
+            <ServerStatus />
+          </Suspense>
+        ),
 
-    if (isStallAdmin) {
-      if (isMobile) {
+        Settings: (
+          <Settings
+            key="settings-mgr"
+          />
+        ),
+      };
+
+      // =====================================================
+      // 模擬店責任者
+      // =====================================================
+
+      if (isStallAdmin) {
+        if (isMobile) {
+          return [
+            [
+              managers.Booth,
+            ],
+            [
+              managers.NewsStatus,
+            ],
+          ];
+        }
+
+        if (
+          columns >= 3
+        ) {
+          return [
+            [
+              managers.Booth,
+            ],
+            [
+              managers.NewsStatus,
+            ],
+            [],
+          ];
+        }
+
         return [
-          [managers.Booth],
-          [managers.NewsStatus],
+          [
+            managers.Booth,
+          ],
+          [
+            React.cloneElement(
+              managers.NewsStatus as React.ReactElement,
+              {
+                key:
+                  "news-status-col",
+              },
+            ),
+          ],
         ];
       }
 
-      if (columns >= 3) {
+      // =====================================================
+      // 1: 管理ダッシュボード
+      // =====================================================
+
+      if (
+        activeTab === "1"
+      ) {
+        if (isMobile) {
+          return [
+            [
+              managers.News,
+            ],
+            [
+              managers.QA,
+            ],
+            [
+              managers.Lost,
+            ],
+            [
+              managers.Settings,
+            ],
+          ];
+        }
+
+        if (
+          columns >= 3
+        ) {
+          return [
+            [
+              managers.News,
+            ],
+            [
+              managers.QA,
+            ],
+            [
+              managers.Lost,
+            ],
+          ];
+        }
+
         return [
-          [managers.Booth],
-          [managers.NewsStatus],
-          [],
+          [
+            managers.News,
+          ],
+          [
+            React.cloneElement(
+              managers.Lost as React.ReactElement,
+              {
+                key:
+                  "lost-col",
+              },
+            ),
+          ],
         ];
       }
 
-      return [
-        [managers.Booth],
-        [
-          React.cloneElement(
-            managers.NewsStatus as React.ReactElement,
-            {
-              key: "news-status-col",
-            },
-          ),
-        ],
-      ];
-    }
+      // =====================================================
+      // 2: 投票集計
+      // =====================================================
 
-    // ------------------------------------
-    // 管理ダッシュボード
-    // ------------------------------------
+      if (
+        activeTab === "2"
+      ) {
+        if (isMobile) {
+          return [
+            [
+              <VoteAdmin
+                key="stall"
+                filterCategory="s"
+              />,
+            ],
+            [
+              <VoteAdmin
+                key="exhibition"
+                filterCategory="e"
+              />,
+            ],
+            [
+              <VoteAdmin
+                key="other"
+                filterCategory="o"
+              />,
+            ],
+          ];
+        }
 
-    if (activeTab === "1") {
-      if (isMobile) {
-        return [
-          [managers.News],
-          [managers.QA],
-          [managers.Lost],
-          [managers.Settings],
-        ];
-      }
+        if (
+          columns >= 3
+        ) {
+          return [
+            [
+              <VoteAdmin
+                key="stall"
+                filterCategory="s"
+              />,
+            ],
+            [
+              <VoteAdmin
+                key="exhibition"
+                filterCategory="e"
+              />,
+            ],
+            [
+              <VoteAdmin
+                key="other"
+                filterCategory="o"
+              />,
+            ],
+          ];
+        }
 
-      if (columns >= 3) {
-        return [
-          [managers.News],
-          [managers.QA],
-          [managers.Lost],
-        ];
-      }
-
-      return [
-        [managers.News],
-        [
-          React.cloneElement(
-            managers.Lost as React.ReactElement,
-            {
-              key: "lost-col",
-            },
-          ),
-        ],
-      ];
-    }
-
-    // ------------------------------------
-    // 投票集計
-    // ------------------------------------
-
-    if (activeTab === "2") {
-      if (isMobile) {
         return [
           [
             <VoteAdmin
               key="stall"
               filterCategory="s"
             />,
-          ],
-          [
+
             <VoteAdmin
               key="exhibition"
               filterCategory="e"
@@ -390,94 +555,84 @@ export default function AdminView() {
         ];
       }
 
-      if (columns >= 3) {
+      // =====================================================
+      // 4 PC / 3 Mobile: 模擬店QR
+      // =====================================================
+
+      if (
+        activeTab === "4" ||
+        (
+          isMobile &&
+          activeTab ===
+            "3"
+        )
+      ) {
         return [
           [
-            <VoteAdmin
-              key="stall"
-              filterCategory="s"
-            />,
-          ],
-          [
-            <VoteAdmin
-              key="exhibition"
-              filterCategory="e"
-            />,
-          ],
-          [
-            <VoteAdmin
-              key="other"
-              filterCategory="o"
-            />,
+            managers.QR,
           ],
         ];
       }
 
-      return [
-        [
-          <VoteAdmin
-            key="stall"
-            filterCategory="s"
-          />,
-          <VoteAdmin
-            key="exhibition"
-            filterCategory="e"
-          />,
-        ],
-        [
-          <VoteAdmin
-            key="other"
-            filterCategory="o"
-          />,
-        ],
-      ];
-    }
+      // =====================================================
+      // 6: 展示QR
+      // =====================================================
 
-    // ------------------------------------
-    // 模擬店QR
-    // PC = 4
-    // Mobile = 3
-    // ------------------------------------
+      if (
+        activeTab === "6"
+      ) {
+        return [
+          [
+            managers.ExhibitionQR,
+          ],
+        ];
+      }
 
-    if (
-      activeTab === "4" ||
-      (isMobile &&
-        activeTab === "3")
-    ) {
-      return [[managers.QR]];
-    }
+      // =====================================================
+      // 7: 全ブース管理
+      // =====================================================
 
-    // ------------------------------------
-    // 展示QR
-    // ------------------------------------
+      if (
+        activeTab === "7"
+      ) {
+        return [
+          [
+            managers.AllStatus,
+          ],
+        ];
+      }
 
-    if (activeTab === "6") {
-      return [
-        [
-          managers.ExhibitionQR,
-        ],
-      ];
-    }
+      // =====================================================
+      // 5: サーバー
+      // =====================================================
 
-    // ------------------------------------
-    // サーバー
-    // ------------------------------------
+      if (
+        activeTab === "5"
+      ) {
+        return [
+          [
+            managers.Status,
+          ],
+        ];
+      }
 
-    if (activeTab === "5") {
-      return [
-        [managers.Status],
-      ];
-    }
+      return [[]];
+    }, [
+      isMobile,
+      columns,
+      isStallAdmin,
+      activeTab,
+    ]);
 
-    return [[]];
-  }, [
-    isMobile,
-    columns,
-    isStallAdmin,
-    activeTab,
-  ]);
+  // =========================================================
+  // Tabs
+  // =========================================================
 
   const tabItems = [
+    // -------------------------------------------------------
+    // Dashboard
+    // -------------------------------------------------------
+
     {
       key: "1",
 
@@ -488,9 +643,10 @@ export default function AdminView() {
               styles.tabIcon
             }
             style={{
-              fontSize: isMobile
-                ? "16px"
-                : "18px",
+              fontSize:
+                isMobile
+                  ? "16px"
+                  : "18px",
             }}
           />
 
@@ -500,6 +656,10 @@ export default function AdminView() {
         </Space>
       ),
     },
+
+    // -------------------------------------------------------
+    // Vote
+    // -------------------------------------------------------
 
     {
       key: "2",
@@ -511,9 +671,10 @@ export default function AdminView() {
               styles.tabIcon
             }
             style={{
-              fontSize: isMobile
-                ? "16px"
-                : "18px",
+              fontSize:
+                isMobile
+                  ? "16px"
+                  : "18px",
             }}
           />
 
@@ -524,11 +685,43 @@ export default function AdminView() {
       ),
     },
 
-    // 模擬店QR
+    // -------------------------------------------------------
+    // All status manager
+    // -------------------------------------------------------
+
     {
-      key: isMobile
-        ? "3"
-        : "4",
+      key: "7",
+
+      label: (
+        <Space>
+          <StorefrontRoundedIcon
+            className={
+              styles.tabIcon
+            }
+            style={{
+              fontSize:
+                isMobile
+                  ? "16px"
+                  : "18px",
+            }}
+          />
+
+          {isMobile
+            ? "状況管理"
+            : "全ブース管理"}
+        </Space>
+      ),
+    },
+
+    // -------------------------------------------------------
+    // Booth QR
+    // -------------------------------------------------------
+
+    {
+      key:
+        isMobile
+          ? "3"
+          : "4",
 
       label: (
         <Space>
@@ -537,9 +730,10 @@ export default function AdminView() {
               styles.tabIcon
             }
             style={{
-              fontSize: isMobile
-                ? "16px"
-                : "18px",
+              fontSize:
+                isMobile
+                  ? "16px"
+                  : "18px",
             }}
           />
 
@@ -550,7 +744,10 @@ export default function AdminView() {
       ),
     },
 
-    // 展示QR
+    // -------------------------------------------------------
+    // Exhibition QR
+    // -------------------------------------------------------
+
     {
       key: "6",
 
@@ -561,9 +758,10 @@ export default function AdminView() {
               styles.tabIcon
             }
             style={{
-              fontSize: isMobile
-                ? "16px"
-                : "18px",
+              fontSize:
+                isMobile
+                  ? "16px"
+                  : "18px",
             }}
           />
 
@@ -574,7 +772,10 @@ export default function AdminView() {
       ),
     },
 
-    // サーバー
+    // -------------------------------------------------------
+    // Server
+    // -------------------------------------------------------
+
     {
       key: "5",
 
@@ -585,9 +786,10 @@ export default function AdminView() {
               styles.tabIcon
             }
             style={{
-              fontSize: isMobile
-                ? "16px"
-                : "18px",
+              fontSize:
+                isMobile
+                  ? "16px"
+                  : "18px",
             }}
           />
 
@@ -597,6 +799,10 @@ export default function AdminView() {
     },
   ];
 
+  // =========================================================
+  // Bottom Navigation
+  // =========================================================
+
   const showBottomNav =
     isMobile &&
     (
@@ -605,21 +811,37 @@ export default function AdminView() {
       activeTab === "2"
     );
 
+  // =========================================================
+  // Render
+  // =========================================================
+
   return (
     <div
       className={`mainCanvas ${styles.adminView}`}
     >
-      <Suspense fallback={null}>
+      {/* Map */}
+
+      <Suspense
+        fallback={null}
+      >
         <MapModal
-          isOpen={isMapOpen}
+          isOpen={
+            isMapOpen
+          }
           onClose={() =>
-            setIsMapOpen(false)
+            setIsMapOpen(
+              false,
+            )
           }
           targetPlace={
             mapControl?.targetPlace
           }
         />
       </Suspense>
+
+      {/* =================================================== */}
+      {/* Admin header */}
+      {/* =================================================== */}
 
       {isAdmin && (
         <div
@@ -630,14 +852,24 @@ export default function AdminView() {
           }`}
         >
           <Tabs
-            activeKey={activeTab}
-            onChange={(val) => {
-              setActiveTab(val);
+            activeKey={
+              activeTab
+            }
+            onChange={(
+              value,
+            ) => {
+              setActiveTab(
+                value,
+              );
 
               setSubTab("0");
 
-              if (isMobile) {
-                setIsMoving(true);
+              if (
+                isMobile
+              ) {
+                setIsMoving(
+                  true,
+                );
 
                 setTimeout(
                   () =>
@@ -648,7 +880,9 @@ export default function AdminView() {
                 );
               }
             }}
-            items={tabItems}
+            items={
+              tabItems
+            }
             size={
               isMobile
                 ? "middle"
@@ -656,11 +890,14 @@ export default function AdminView() {
             }
             tabBarStyle={{
               marginBottom: 0,
-              fontWeight: "bold",
+              fontWeight:
+                "bold",
             }}
           />
 
-          <Space size="middle">
+          <Space
+            size="middle"
+          >
             <Button
               icon={
                 <RefreshIcon
@@ -673,7 +910,9 @@ export default function AdminView() {
               onClick={
                 handleManualRefresh
               }
-              loading={isLoading}
+              loading={
+                isLoading
+              }
               type="text"
             >
               {!isMobile &&
@@ -682,6 +921,10 @@ export default function AdminView() {
           </Space>
         </div>
       )}
+
+      {/* =================================================== */}
+      {/* Contents */}
+      {/* =================================================== */}
 
       <div
         className={
@@ -711,12 +954,17 @@ export default function AdminView() {
                     "4" ||
                   activeTab ===
                     "6" ||
-                  (isMobile &&
+                  activeTab ===
+                    "7" ||
+                  (
+                    isMobile &&
                     activeTab ===
-                      "3")
+                      "3"
+                  )
                 ? {
                     margin: 0,
-                    width: "100%",
+                    width:
+                      "100%",
                   }
                 : undefined
           }
@@ -724,10 +972,12 @@ export default function AdminView() {
           {layout.map(
             (
               column,
-              i,
+              index,
             ) => (
               <PCCanvasColumn
-                key={i}
+                key={
+                  index
+                }
                 width={
                   isMobile
                     ? "100%"
@@ -741,6 +991,8 @@ export default function AdminView() {
               </PCCanvasColumn>
             ),
           )}
+
+          {/* Desktop map button */}
 
           {!isMobile && (
             <button
@@ -773,10 +1025,18 @@ export default function AdminView() {
         </div>
       </div>
 
-      {!isMobile && <Menu />}
+      {!isMobile && (
+        <Menu />
+      )}
+
+      {/* =================================================== */}
+      {/* Mobile Bottom Navigator */}
+      {/* =================================================== */}
 
       {showBottomNav && (
-        <div className="bottomCanvas">
+        <div
+          className="bottomCanvas"
+        >
           <BottomNavigator
             mode={
               isStallAdmin
@@ -786,9 +1046,15 @@ export default function AdminView() {
                   ? "admin"
                   : "vote"
             }
-            value={subTab}
-            setValue={setSubTab}
-            isMoving={isMoving}
+            value={
+              subTab
+            }
+            setValue={
+              setSubTab
+            }
+            isMoving={
+              isMoving
+            }
             setIsMoving={
               setIsMoving
             }
